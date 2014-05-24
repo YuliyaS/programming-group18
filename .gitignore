@@ -1,5 +1,8 @@
 *.class
 
+/addressbook-selenium-tests/test-output/*
+/addressbook-selenium-tests/.settings/*
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

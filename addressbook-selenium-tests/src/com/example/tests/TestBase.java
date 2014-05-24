@@ -1,7 +1,5 @@
 package com.example.tests;
 
-import static org.junit.Assert.fail;
-
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -11,6 +9,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -33,7 +32,7 @@ public class TestBase {
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
-			fail(verificationErrorString);
+			Assert.fail(verificationErrorString);
 		}
 	}
 
