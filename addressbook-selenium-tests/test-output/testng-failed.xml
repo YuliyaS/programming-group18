@@ -9,9 +9,15 @@
           <include name="setUp"/>
         </methods>
       </class> <!-- com.example.tests.TestBase -->
+      <class name="com.example.tests.GroupCreationTests">
+        <methods>
+          <include name="testNonEmptyGroupCreation"/>
+          <include name="testEmptyGroupCreation"/>
+        </methods>
+      </class> <!-- com.example.tests.GroupCreationTests -->
       <class name="com.example.tests.ContactCreationTests">
         <methods>
-          <include name="testUntitled"/>
+          <include name="testEmptyContactCreation"/>
         </methods>
       </class> <!-- com.example.tests.ContactCreationTests -->
     </classes>
