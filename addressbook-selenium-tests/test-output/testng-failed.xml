@@ -3,23 +3,14 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.example.tests.TestBase">
+      <class name="com.example.tests.GroupCreationTests">
         <methods>
           <include name="tearDown"/>
           <include name="setUp"/>
-        </methods>
-      </class> <!-- com.example.tests.TestBase -->
-      <class name="com.example.tests.GroupCreationTests">
-        <methods>
           <include name="testNonEmptyGroupCreation"/>
           <include name="testEmptyGroupCreation"/>
         </methods>
       </class> <!-- com.example.tests.GroupCreationTests -->
-      <class name="com.example.tests.ContactCreationTests">
-        <methods>
-          <include name="testEmptyContactCreation"/>
-        </methods>
-      </class> <!-- com.example.tests.ContactCreationTests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
