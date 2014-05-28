@@ -7,7 +7,7 @@ import com.example.fw.ApplicationManager;
 
 public class TestBase {
 
-	protected ApplicationManager app;
+	public static ApplicationManager app;
 
 	@BeforeTest
 	public void setUp() throws Exception {
