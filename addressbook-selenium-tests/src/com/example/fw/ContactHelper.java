@@ -1,6 +1,10 @@
 package com.example.fw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
 
@@ -79,6 +83,21 @@ public class ContactHelper extends HelperBase {
 		selectAllContactsOnPage();
 		click(By.name("remove"));
 
+	}
+	
+	public List<ContactData> getContacts() {
+		List<ContactData> contacts = new ArrayList<ContactData>();
+		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			ContactData contact = new ContactData();
+			String title = checkbox.getAttribute("title");
+			//так как невозможно выделить из данного элемента имя и фамилию в отдельности, то для упрощения запишем в поле имени оба значения
+			contact.firstname = title.substring("Select (".length(), title.length()
+					- ")".length()); 
+			contacts.add(contact);
+
+		}
+		return contacts;
 	}
 
 }

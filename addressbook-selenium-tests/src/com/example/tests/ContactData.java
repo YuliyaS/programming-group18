@@ -19,4 +19,6 @@ public class ContactData {
 	public ContactData() {
 
 	}
+
+	
 }
