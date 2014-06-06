@@ -85,19 +85,28 @@ public class ContactHelper extends HelperBase {
 
 	}
 	
-	public List<ContactData> getContacts() {
+		public List<ContactData> getContacts() {
+			
 		List<ContactData> contacts = new ArrayList<ContactData>();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+		
 		for (WebElement checkbox : checkboxes) {
+			Integer stringnumber = checkboxes.indexOf(checkbox) + 2;
 			ContactData contact = new ContactData();
-			String title = checkbox.getAttribute("title");
-			//так как невозможно выделить из данного элемента имя и фамилию в отдельности, то для упрощения запишем в поле имени оба значения
-			contact.firstname = title.substring("Select (".length(), title.length()
-					- ")".length()); 
+			contact.lastname = driver.findElement(
+					By.xpath("//tr[" + stringnumber + "]/td[2]")).getText();
+			contact.firstname = driver.findElement(
+					By.xpath("//tr[" + stringnumber + "]/td[3]")).getText();
+			contact.email1 = driver.findElement(
+					By.xpath("//tr[" + stringnumber + "]/td[4]/a")).getText();
+			contact.home_phone1 = driver.findElement(
+					By.xpath("//tr[" + stringnumber + "]/td[5]")).getText();
+		
 			contacts.add(contact);
-
-		}
+		}	
+		
 		return contacts;
 	}
+	
 
 }
