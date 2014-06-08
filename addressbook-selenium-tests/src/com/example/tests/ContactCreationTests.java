@@ -13,7 +13,7 @@ public class ContactCreationTests extends TestBase {
 	public void testNonEmptyContactCreation() throws Exception {
 		ContactData contact = new ContactData();
 		contact.firstname = "firstname";
-		contact.lastname = "111";
+		contact.lastname = "lastname";
 		contact.address1 = "address1";
 		contact.home_phone1 = "home_phone1";
 		contact.mobile_phone = "mobile_phone";
@@ -48,7 +48,7 @@ public class ContactCreationTests extends TestBase {
 }
 
 
-	//@Test
+	@Test
 	public void testEmptyContactCreation() throws Exception {
 		ContactData contact = new ContactData();
 		contact.firstname = "";

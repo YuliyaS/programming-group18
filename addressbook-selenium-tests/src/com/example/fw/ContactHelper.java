@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
+import com.example.tests.GroupData;
 
 public class ContactHelper extends HelperBase {
 
@@ -50,7 +51,7 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public void initContactModification(int index) {
-		click(By.xpath("(//img[@alt='Edit'])[" + index + "]"));
+		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
 	}
 
 	public void submitContactModification() {
@@ -91,22 +92,52 @@ public class ContactHelper extends HelperBase {
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
 		
 		for (WebElement checkbox : checkboxes) {
-			Integer stringnumber = checkboxes.indexOf(checkbox) + 2;
-			ContactData contact = new ContactData();
-			contact.lastname = driver.findElement(
-					By.xpath("//tr[" + stringnumber + "]/td[2]")).getText();
-			contact.firstname = driver.findElement(
-					By.xpath("//tr[" + stringnumber + "]/td[3]")).getText();
-			contact.email1 = driver.findElement(
-					By.xpath("//tr[" + stringnumber + "]/td[4]/a")).getText();
-			contact.home_phone1 = driver.findElement(
-					By.xpath("//tr[" + stringnumber + "]/td[5]")).getText();
-		
+			int index = checkboxes.indexOf(checkbox);
+			ContactData contact = getContactByIndex(index);
 			contacts.add(contact);
 		}	
 		
 		return contacts;
 	}
-	
+
+		public ContactData getContactByIndex(int index) {
+			int rowNumber = index + 2;
+			ContactData contact = new ContactData();
+			contact.lastname = driver.findElement(
+					By.xpath("//tr[" + rowNumber + "]/td[2]")).getText();
+			contact.firstname = driver.findElement(
+					By.xpath("//tr[" + rowNumber + "]/td[3]")).getText();
+			contact.email1 = driver.findElement(
+					By.xpath("//tr[" + rowNumber + "]/td[4]/a")).getText();
+			contact.home_phone1 = driver.findElement(
+					By.xpath("//tr[" + rowNumber + "]/td[5]")).getText();
+			return contact;
+		}
+
+		public List<GroupData> getGroupListOfCombobox(String combobox) {
+			String choiceCombobox = null;
+			if (combobox == "listOnMainPage") {choiceCombobox = "//select/option";
+				
+			}
+			if (combobox == "addToGroupList") {choiceCombobox = "//select[3]/option";
+			
+			}
+			
+			if (combobox == "listOnAddContactPage") {choiceCombobox = "//select[3]/option";
+			
+			}
+			List<GroupData> groups = new ArrayList<GroupData>();
+			List<WebElement> options = driver
+					.findElements(By.xpath(choiceCombobox));
+			for (WebElement option : options) {
+				GroupData group = new GroupData();
+				group.name = option.getText();
+				groups.add(group);
+
+			}
+			return groups;
+		}
+		
+
 
 }
