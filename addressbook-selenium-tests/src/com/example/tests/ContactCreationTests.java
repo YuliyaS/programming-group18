@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static org.testng.Assert.assertEquals;
 
@@ -23,7 +24,6 @@ public class ContactCreationTests extends TestBase {
 		contact.bday = "19";
 		contact.bmonth = "November";
 		contact.byear = "1980";
-		contact.group = "Rob";
 		contact.address2 = "address2";
 		contact.home_phone2 = "home_phone2";
 		app.getNavigationHelper().openMainPage();
@@ -33,6 +33,12 @@ public class ContactCreationTests extends TestBase {
 
 		// actions
 		app.getContactHelper().initContactCreation();
+		
+		List<GroupData> groupList = app.getContactHelper().getGroupListOfCombobox("groupListOnAddContactPage");
+		Random rnd = new Random();
+		int groupIndex = rnd.nextInt(groupList.size() - 1);
+		contact.group = groupList.get(groupIndex).name;
+		
 		app.getContactHelper().fillContactForm(contact);
 		app.getContactHelper().submitContactCreation();
 		app.getContactHelper().returnToHomePage();

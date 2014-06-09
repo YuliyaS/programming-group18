@@ -78,23 +78,7 @@ public class ContactData implements Comparable<ContactData> {
 		} else {
 			result = this.firstname.toLowerCase().compareTo(
 					other.firstname.toLowerCase());
-			if (result != 0) {
 				return result;
-
-			} else {
-				result = this.home_phone1.toLowerCase().compareTo(
-						other.home_phone1.toLowerCase());
-				if (result != 0) {
-					return result;
-
-				} else {
-					result = this.email1.toLowerCase().compareTo(
-							other.email1.toLowerCase());
-					return result;
-
-				}
-
-			}
 
 		}
 

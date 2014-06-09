@@ -36,7 +36,7 @@ public class ContactHelper extends HelperBase {
 		selectByText(By.name("bday"), contact.bday);
 		selectByText(By.name("bmonth"), contact.bmonth);
 		type(By.name("byear"), contact.byear);
-		// selectByText(By.name("new_group"), contact.group);
+		selectByText(By.name("new_group"), contact.group);
 		type(By.name("address2"), contact.address2);
 		type(By.name("phone2"), contact.home_phone2);
 	}
@@ -59,9 +59,9 @@ public class ContactHelper extends HelperBase {
 
 	}
 
-	public void addContactToGroup(String groupname) {
+	public void addContactsToGroup(int index) {
 		selectAllContactsOnPage();
-		selectByText(By.name("to_group"), groupname);
+		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
 		click(By.name("add"));
 
 	}
@@ -75,69 +75,74 @@ public class ContactHelper extends HelperBase {
 
 	}
 
-	public void openContactListOfGroup(String groupname) {
-		selectByText(By.name("group"), groupname);
+	public void openContactListOfGroup(int index) {
+		click(By.xpath("//select[@name='group']/option[" + (index + 1) + "]"));
 
 	}
 
-	public void RemoveContactFromGroup() {
+	public void removeContactsFromGroup() {
 		selectAllContactsOnPage();
 		click(By.name("remove"));
 
 	}
-	
-		public List<ContactData> getContacts() {
-			
+
+	public List<ContactData> getContacts() {
+
 		List<ContactData> contacts = new ArrayList<ContactData>();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		
+		List<WebElement> checkboxes = driver
+				.findElements(By.name("selected[]"));
+
 		for (WebElement checkbox : checkboxes) {
 			int index = checkboxes.indexOf(checkbox);
 			ContactData contact = getContactByIndex(index);
 			contacts.add(contact);
-		}	
-		
+		}
+
 		return contacts;
 	}
 
-		public ContactData getContactByIndex(int index) {
-			int rowNumber = index + 2;
-			ContactData contact = new ContactData();
-			contact.lastname = driver.findElement(
-					By.xpath("//tr[" + rowNumber + "]/td[2]")).getText();
-			contact.firstname = driver.findElement(
-					By.xpath("//tr[" + rowNumber + "]/td[3]")).getText();
-			contact.email1 = driver.findElement(
-					By.xpath("//tr[" + rowNumber + "]/td[4]/a")).getText();
-			contact.home_phone1 = driver.findElement(
-					By.xpath("//tr[" + rowNumber + "]/td[5]")).getText();
-			return contact;
+	private ContactData getContactByIndex(int index) {
+		ContactData contact = new ContactData();
+		contact.lastname = driver.findElement(
+				By.xpath("(//td[2])[" + (index + 1)+ "]")).getText();
+		contact.firstname = driver.findElement(
+				By.xpath("(//td[3])[" + (index + 1)+ "]")).getText();
+		contact.email1 = driver.findElement(
+				By.xpath("(//td[4])[" + (index + 1)+ "]/a")).getText();
+		contact.home_phone1 = driver.findElement(
+				By.xpath("(//td[5])[" + (index + 1)+ "]")).getText();
+		return contact;
+	}
+
+	public List<GroupData> getGroupListOfCombobox(String combobox)
+
+	{
+		String choiceCombobox;
+		switch (combobox) {
+		case "groupListOnMainPage":
+			choiceCombobox = "//select[@name='group']/option";
+			break;
+		case "addToGroupList":
+			choiceCombobox = "//select[@name='to_group']/option";
+			break;
+		case "groupListOnAddContactPage":
+			choiceCombobox = "//select[@name='new_group']/option";
+			break;
+		default:
+			choiceCombobox = null;
+			break;
+
 		}
+		List<GroupData> groups = new ArrayList<GroupData>();
+		List<WebElement> options = driver
+				.findElements(By.xpath(choiceCombobox));
+		for (WebElement option : options) {
+			GroupData group = new GroupData();
+			group.name = option.getText();
+			groups.add(group);
 
-		public List<GroupData> getGroupListOfCombobox(String combobox) {
-			String choiceCombobox = null;
-			if (combobox == "listOnMainPage") {choiceCombobox = "//select/option";
-				
-			}
-			if (combobox == "addToGroupList") {choiceCombobox = "//select[3]/option";
-			
-			}
-			
-			if (combobox == "listOnAddContactPage") {choiceCombobox = "//select[3]/option";
-			
-			}
-			List<GroupData> groups = new ArrayList<GroupData>();
-			List<WebElement> options = driver
-					.findElements(By.xpath(choiceCombobox));
-			for (WebElement option : options) {
-				GroupData group = new GroupData();
-				group.name = option.getText();
-				groups.add(group);
-
-			}
-			return groups;
 		}
-		
-
+		return groups;
+	}
 
 }
