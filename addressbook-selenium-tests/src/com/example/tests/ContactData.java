@@ -23,7 +23,7 @@ public class ContactData implements Comparable<ContactData> {
 	@Override
 	public String toString() {
 		return "ContactData [firstname=" + firstname + ", lastname=" + lastname
-				+ ", home_phone1=" + home_phone1 + ", email1=" + email1 + "]";
+				+ ", email1=" + email1 + "]";
 	}
 
 	@Override
@@ -53,11 +53,6 @@ public class ContactData implements Comparable<ContactData> {
 			if (other.firstname != null)
 				return false;
 		} else if (!firstname.equals(other.firstname))
-			return false;
-		if (home_phone1 == null) {
-			if (other.home_phone1 != null)
-				return false;
-		} else if (!home_phone1.equals(other.home_phone1))
 			return false;
 		if (email1 == null) {
 			if (other.email1 != null)

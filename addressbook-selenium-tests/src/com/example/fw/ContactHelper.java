@@ -58,15 +58,20 @@ public class ContactHelper extends HelperBase {
 		click(By.name("update"));
 
 	}
+	
 
 	public void addContactsToGroup(int index) {
-		selectAllContactsOnPage();
 		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
 		click(By.name("add"));
 
 	}
+	
+	public void selectContactByIndex(int index) {
+		click(By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"));
+	}
 
-	private void selectAllContactsOnPage() {
+
+	public void selectAllContactsOnPage() {
 		click(By.id("MassCB"));
 	}
 
@@ -77,6 +82,10 @@ public class ContactHelper extends HelperBase {
 
 	public void openContactListOfGroup(int index) {
 		click(By.xpath("//select[@name='group']/option[" + (index + 1) + "]"));
+	}
+
+	public void openContactListOfGroup(String name) {
+		selectByText(By.name("group"), name);
 
 	}
 
@@ -104,13 +113,11 @@ public class ContactHelper extends HelperBase {
 	private ContactData getContactByIndex(int index) {
 		ContactData contact = new ContactData();
 		contact.lastname = driver.findElement(
-				By.xpath("(//td[2])[" + (index + 1)+ "]")).getText();
+				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
 		contact.firstname = driver.findElement(
-				By.xpath("(//td[3])[" + (index + 1)+ "]")).getText();
+				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
 		contact.email1 = driver.findElement(
-				By.xpath("(//td[4])[" + (index + 1)+ "]/a")).getText();
-		contact.home_phone1 = driver.findElement(
-				By.xpath("(//td[5])[" + (index + 1)+ "]")).getText();
+				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
 		return contact;
 	}
 
@@ -143,6 +150,24 @@ public class ContactHelper extends HelperBase {
 
 		}
 		return groups;
+	}
+
+	public List<GroupData> getGroupListOfContact(int index) {
+		click(By.xpath("(//img[@alt='Details'])[" + (index + 1) + "]"));
+		List<GroupData> groups = new ArrayList<GroupData>();
+		List<WebElement> groupnames = driver
+				.findElements(By.xpath(".//*[@id='content']/i/a"));
+
+		for (WebElement groupname : groupnames) {
+			int groupIndex = groupnames.indexOf(groupname);
+			GroupData group = new GroupData();
+			group.name = driver.findElement(
+					By.xpath("//*[@id='content']/i/a[" + (groupIndex + 1) + "]")).getText();
+			groups.add(group);
+		}
+
+		return groups;
+
 	}
 
 }
