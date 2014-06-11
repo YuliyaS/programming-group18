@@ -96,8 +96,7 @@ public class ContactHelper extends HelperBase {
 	public List<ContactData> getContacts() {
 
 		List<ContactData> contacts = new ArrayList<ContactData>();
-		List<WebElement> checkboxes = driver
-				.findElements(By.name("selected[]"));
+		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
 
 		for (WebElement checkbox : checkboxes) {
 			int index = checkboxes.indexOf(checkbox);
@@ -110,11 +109,11 @@ public class ContactHelper extends HelperBase {
 
 	private ContactData getContactByIndex(int index) {
 		ContactData contact = new ContactData();
-		contact.lastname = driver.findElement(
+		contact.lastname = getWebElement(
 				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
-		contact.firstname = driver.findElement(
+		contact.firstname = getWebElement(
 				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
-		contact.email1 = driver.findElement(
+		contact.email1 = getWebElement(
 				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
 		return contact;
 	}
@@ -139,8 +138,7 @@ public class ContactHelper extends HelperBase {
 
 		}
 		List<GroupData> groups = new ArrayList<GroupData>();
-		List<WebElement> options = driver
-				.findElements(By.xpath(choiceCombobox));
+		List<WebElement> options = getListWebElements(By.xpath(choiceCombobox));
 		for (WebElement option : options) {
 			GroupData group = new GroupData();
 			group.name = option.getText();
@@ -153,17 +151,16 @@ public class ContactHelper extends HelperBase {
 	public List<GroupData> getGroupListOfContact(int index) {
 		click(By.xpath("(//img[@alt='Details'])[" + (index + 1) + "]"));
 		List<GroupData> groups = new ArrayList<GroupData>();
-		List<WebElement> groupnames = driver.findElements(By
+		List<WebElement> groupnames = getListWebElements(By
 				.xpath(".//*[@id='content']/i/a"));
 
 		for (WebElement groupname : groupnames) {
 			int groupIndex = groupnames.indexOf(groupname);
 			GroupData group = new GroupData();
-			group.name = driver
-					.findElement(
-							By.xpath("//*[@id='content']/i/a["
-									+ (groupIndex + 1) + "]")).getText();
-
+			group.name = getWebElement(
+					By.xpath("//*[@id='content']/i/a["
+							+ (groupIndex + 1) + "]")).getText();
+					
 			if (group.name.equals(null)) {
 
 				group.name = "";
