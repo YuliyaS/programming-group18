@@ -58,18 +58,16 @@ public class ContactHelper extends HelperBase {
 		click(By.name("update"));
 
 	}
-	
 
 	public void addContactsToGroup(int index) {
 		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
 		click(By.name("add"));
 
 	}
-	
+
 	public void selectContactByIndex(int index) {
 		click(By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"));
 	}
-
 
 	public void selectAllContactsOnPage() {
 		click(By.id("MassCB"));
@@ -155,14 +153,22 @@ public class ContactHelper extends HelperBase {
 	public List<GroupData> getGroupListOfContact(int index) {
 		click(By.xpath("(//img[@alt='Details'])[" + (index + 1) + "]"));
 		List<GroupData> groups = new ArrayList<GroupData>();
-		List<WebElement> groupnames = driver
-				.findElements(By.xpath(".//*[@id='content']/i/a"));
+		List<WebElement> groupnames = driver.findElements(By
+				.xpath(".//*[@id='content']/i/a"));
 
 		for (WebElement groupname : groupnames) {
 			int groupIndex = groupnames.indexOf(groupname);
 			GroupData group = new GroupData();
-			group.name = driver.findElement(
-					By.xpath("//*[@id='content']/i/a[" + (groupIndex + 1) + "]")).getText();
+			group.name = driver
+					.findElement(
+							By.xpath("//*[@id='content']/i/a["
+									+ (groupIndex + 1) + "]")).getText();
+
+			if (group.name.equals(null)) {
+
+				group.name = "";
+			}
+
 			groups.add(group);
 		}
 

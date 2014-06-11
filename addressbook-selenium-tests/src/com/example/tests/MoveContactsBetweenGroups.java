@@ -55,7 +55,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 		assertEquals(groupListAll, groupListTo);
 
 		// compare states
-		
+
 		if (groupListOfContact.contains(groupTo)) {
 
 			assertEquals(newList, oldList);
@@ -76,25 +76,24 @@ public class MoveContactsBetweenGroups extends TestBase {
 		List<GroupData> groupList = app.getContactHelper()
 				.getGroupListOfCombobox("groupListOnMainPage");
 		String groupName;
-		GroupData group = new GroupData();
 		int groupIndex;
-		
+
 		do {
-			
+
 			Random rnd = new Random();
 			groupIndex = rnd.nextInt(groupList.size() - 1);
-			group = groupList.get(groupIndex);
-			groupName = group.name;
-			
-		} while (groupName.equals("")|groupName.equals("[all]")|groupName.equals("[none]"));
-		
+			groupName = groupList.get(groupIndex).name;
+
+		} while (groupName.equals("") | groupName.equals("[all]")
+				| groupName.equals("[none]"));
+
 		app.getContactHelper().openContactListOfGroup(groupIndex);
 		app.getContactHelper().removeContactsFromGroup();
 		app.getContactHelper().gotoContactListOfGroupByLink(groupName);
-		
+
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
-		
+
 		app.getContactHelper().openContactListOfGroup("[all]");
 
 		// compare states

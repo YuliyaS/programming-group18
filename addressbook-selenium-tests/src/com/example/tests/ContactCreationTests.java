@@ -27,22 +27,23 @@ public class ContactCreationTests extends TestBase {
 		contact.address2 = "address2";
 		contact.home_phone2 = "home_phone2";
 		app.getNavigationHelper().openMainPage();
-		
+
 		// save old state
 		List<ContactData> oldList = app.getContactHelper().getContacts();
 
 		// actions
 		app.getContactHelper().initContactCreation();
-		
-		List<GroupData> groupList = app.getContactHelper().getGroupListOfCombobox("groupListOnAddContactPage");
+
+		List<GroupData> groupList = app.getContactHelper()
+				.getGroupListOfCombobox("groupListOnAddContactPage");
 		Random rnd = new Random();
 		int groupIndex = rnd.nextInt(groupList.size() - 1);
 		contact.group = groupList.get(groupIndex).name;
-		
+
 		app.getContactHelper().fillContactForm(contact);
 		app.getContactHelper().submitContactCreation();
 		app.getContactHelper().returnToHomePage();
-		
+
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
 
@@ -51,8 +52,7 @@ public class ContactCreationTests extends TestBase {
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
 
-}
-
+	}
 
 	@Test
 	public void testEmptyContactCreation() throws Exception {
@@ -72,7 +72,7 @@ public class ContactCreationTests extends TestBase {
 		contact.address2 = "";
 		contact.home_phone2 = "";
 		app.getNavigationHelper().openMainPage();
-		
+
 		// save old state
 		List<ContactData> oldList = app.getContactHelper().getContacts();
 
@@ -81,7 +81,7 @@ public class ContactCreationTests extends TestBase {
 		app.getContactHelper().fillContactForm(contact);
 		app.getContactHelper().submitContactCreation();
 		app.getContactHelper().returnToHomePage();
-		
+
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
 
