@@ -3,6 +3,8 @@ package com.example.fw;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.RowFilter;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -96,10 +98,11 @@ public class ContactHelper extends HelperBase {
 	public List<ContactData> getContacts() {
 
 		List<ContactData> contacts = new ArrayList<ContactData>();
-		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
+		List<WebElement> rows = driver.findElements(By
+				.xpath("(//tr[@name='entry'])"));
 
-		for (WebElement checkbox : checkboxes) {
-			int index = checkboxes.indexOf(checkbox);
+		for (WebElement row : rows) {
+			int index = rows.indexOf(row);
 			ContactData contact = getContactByIndex(index);
 			contacts.add(contact);
 		}
@@ -158,9 +161,9 @@ public class ContactHelper extends HelperBase {
 			int groupIndex = groupnames.indexOf(groupname);
 			GroupData group = new GroupData();
 			group.name = getWebElement(
-					By.xpath("//*[@id='content']/i/a["
-							+ (groupIndex + 1) + "]")).getText();
-					
+					By.xpath("//*[@id='content']/i/a[" + (groupIndex + 1) + "]"))
+					.getText();
+
 			if (group.name.equals(null)) {
 
 				group.name = "";
