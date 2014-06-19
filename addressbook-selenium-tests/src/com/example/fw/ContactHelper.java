@@ -3,8 +3,6 @@ package com.example.fw;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.RowFilter;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -27,20 +25,48 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public void fillContactForm(ContactData contact) {
-		type(By.name("firstname"), contact.firstname);
-		type(By.name("lastname"), contact.lastname);
-		type(By.name("address"), contact.address1);
-		type(By.name("home"), contact.home_phone1);
-		type(By.name("mobile"), contact.mobile_phone);
-		type(By.name("work"), contact.work_phone);
-		type(By.name("email"), contact.email1);
-		type(By.name("email2"), contact.email2);
-		selectByText(By.name("bday"), contact.bday);
-		selectByText(By.name("bmonth"), contact.bmonth);
-		type(By.name("byear"), contact.byear);
-		selectByText(By.name("new_group"), contact.group);
-		type(By.name("address2"), contact.address2);
-		type(By.name("phone2"), contact.home_phone2);
+		if (contact.firstname != null) {
+			type(By.name("firstname"), contact.firstname);
+		}
+		if (contact.lastname != null) {
+			type(By.name("lastname"), contact.lastname);
+		}
+		if (contact.address1 != null) {
+			type(By.name("address"), contact.address1);
+		}
+		if (contact.home_phone1 != null) {
+			type(By.name("home"), contact.home_phone1);
+		}
+		if (contact.mobile_phone != null) {
+			type(By.name("mobile"), contact.mobile_phone);
+		}
+		if (contact.work_phone != null) {
+			type(By.name("work"), contact.work_phone);
+		}
+		if (contact.email1 != null) {
+			type(By.name("email"), contact.email1);
+		}
+		if (contact.email2 != null) {
+			type(By.name("email2"), contact.email2);
+		}
+		if (contact.bday != null) {
+			selectByText(By.name("bday"), contact.bday);
+		}
+		if (contact.bmonth != null) {
+			selectByText(By.name("bmonth"), contact.bmonth);
+		}
+		if (contact.byear != null) {
+			type(By.name("byear"), contact.byear);
+		}
+		if (contact.group != null) {
+			selectByText(By.name("new_group"), contact.group);
+		}
+		if (contact.address2 != null) {
+			type(By.name("address2"), contact.address2);
+		}
+		if (contact.home_phone2 != null) {
+			type(By.name("phone2"), contact.home_phone2);
+		}
 	}
 
 	public void returnToHomePage() {
@@ -110,7 +136,7 @@ public class ContactHelper extends HelperBase {
 		return contacts;
 	}
 
-	private ContactData getContactByIndex(int index) {
+	public ContactData getContactByIndex(int index) {
 		ContactData contact = new ContactData();
 		contact.lastname = getWebElement(
 				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
@@ -121,7 +147,7 @@ public class ContactHelper extends HelperBase {
 		return contact;
 	}
 
-	public List<GroupData> getGroupListOfCombobox(String combobox)
+	private String switchCombobox(String combobox)
 
 	{
 		String choiceCombobox;
@@ -135,11 +161,24 @@ public class ContactHelper extends HelperBase {
 		case "groupListOnAddContactPage":
 			choiceCombobox = "//select[@name='new_group']/option";
 			break;
+		case "bday":
+			choiceCombobox = "//select[@name='bday']/option";
+			break;
+		case "bmonth":
+			choiceCombobox = "//select[@name='bmonth']/option";
+			break;
 		default:
 			choiceCombobox = null;
 			break;
-
 		}
+		return choiceCombobox;
+
+	}
+
+	public List<GroupData> getGroupListOfCombobox(String combobox)
+
+	{
+		String choiceCombobox = switchCombobox(combobox);
 		List<GroupData> groups = new ArrayList<GroupData>();
 		List<WebElement> options = getListWebElements(By.xpath(choiceCombobox));
 		for (WebElement option : options) {
@@ -174,6 +213,25 @@ public class ContactHelper extends HelperBase {
 
 		return groups;
 
+	}
+
+	public List<String> getListFromCombobox(String combobox) {
+		String choiceCombobox = switchCombobox(combobox);
+		List<String> list = new ArrayList<String>();
+		List<WebElement> options = getListWebElements(By.xpath(choiceCombobox));
+		for (WebElement option : options) {
+			String value = option.getText();
+			list.add(value);
+
+		}
+return list;
+	}
+	
+	public String getListElementByIndex(String combobox, int index) 
+	{
+		List<String> list = getListFromCombobox(combobox);
+		String value = list.get(index);
+		return value;
 	}
 
 }

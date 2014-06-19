@@ -4,28 +4,25 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.testng.annotations.Test;
 
 public class ContactModificationTests extends TestBase {
 
-	@Test
-	public void modifySomeContact() {
+	@Test(dataProvider = "randomValidContactGenerator")
+	public void modifySomeContact(ContactData newContact) throws Exception {
+		newContact.group = null;
 		app.getNavigationHelper().openMainPage();
 
 		// save old state
 		List<ContactData> oldList = app.getContactHelper().getContacts();
-
-		Random rnd = new Random();
-		int index = rnd.nextInt(oldList.size() - 1);
-		ContactData newContact = oldList.get(index);
+		int index = getRandomIndexOfList(oldList.size());
+		ContactData oldContact = app.getContactHelper()
+				.getContactByIndex(index);
 
 		// actions
 		app.getContactHelper().initContactModification(index);
-		ContactData modifiedContact = new ContactData();
-		modifiedContact.firstname = "new name";
-		app.getContactHelper().fillContactForm(modifiedContact);
+		app.getContactHelper().fillContactForm(newContact);
 		app.getContactHelper().submitContactModification();
 		app.getContactHelper().returnToHomePage();
 
@@ -34,8 +31,24 @@ public class ContactModificationTests extends TestBase {
 
 		// compare states
 		oldList.remove(index);
-		newContact.firstname = modifiedContact.firstname;
-		oldList.add(newContact);
+		// newContact.firstname = modifiedContact.firstname;
+
+		if (newContact.lastname == null) {
+			newContact.lastname = oldContact.lastname;
+		}
+		if (newContact.firstname == null) {
+			newContact.firstname = oldContact.firstname;
+		}
+		if (newContact.email1 == null) {
+			newContact.email1 = oldContact.email1;
+		}
+		if (newContact.email1.isEmpty()) {
+			if (newContact.email2 == null) {
+				newContact.email2 = oldContact.email2;
+			}
+			newContact.email1 = newContact.email2;
+		}
+		oldList.add(index, newContact);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
 
