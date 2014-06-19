@@ -31,7 +31,6 @@ public class ContactModificationTests extends TestBase {
 
 		// compare states
 		oldList.remove(index);
-		// newContact.firstname = modifiedContact.firstname;
 
 		if (newContact.lastname == null) {
 			newContact.lastname = oldContact.lastname;
@@ -39,15 +38,23 @@ public class ContactModificationTests extends TestBase {
 		if (newContact.firstname == null) {
 			newContact.firstname = oldContact.firstname;
 		}
+
 		if (newContact.email1 == null) {
 			newContact.email1 = oldContact.email1;
 		}
+
+		if (newContact.email1 == null) {
+			newContact.email1 = "";
+		}
+
+		if (newContact.email2 == null) {
+			newContact.email2 = "";
+		}
+
 		if (newContact.email1.isEmpty()) {
-			if (newContact.email2 == null) {
-				newContact.email2 = oldContact.email2;
-			}
 			newContact.email1 = newContact.email2;
 		}
+
 		oldList.add(index, newContact);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
