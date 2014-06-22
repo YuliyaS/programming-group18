@@ -1,6 +1,7 @@
 package com.example.tests;
 
 public class ContactData implements Comparable<ContactData> {
+	public int id;
 	public String firstname;
 	public String lastname;
 	public String address1;
@@ -72,7 +73,14 @@ public class ContactData implements Comparable<ContactData> {
 		} else {
 			result = this.firstname.toLowerCase().compareTo(
 					other.firstname.toLowerCase());
-			return result;
+			if (result != 0) {
+				return result;
+
+			} else {
+				result = (this.id - other.id);
+				return result;
+
+			}
 
 		}
 

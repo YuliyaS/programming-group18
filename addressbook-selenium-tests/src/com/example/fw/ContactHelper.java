@@ -138,6 +138,9 @@ public class ContactHelper extends HelperBase {
 
 	public ContactData getContactByIndex(int index) {
 		ContactData contact = new ContactData();
+		contact.id = Integer.parseInt(getWebElement(
+				By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"))
+				.getAttribute("value"));
 		contact.lastname = getWebElement(
 				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
 		contact.firstname = getWebElement(
@@ -224,14 +227,28 @@ public class ContactHelper extends HelperBase {
 			list.add(value);
 
 		}
-return list;
+		return list;
 	}
-	
-	public String getListElementByIndex(String combobox, int index) 
-	{
+
+	public String getListElementByIndex(String combobox, int index) {
 		List<String> list = getListFromCombobox(combobox);
 		String value = list.get(index);
 		return value;
+	}
+
+	public ContactData getContactDataOnEditingForm() {
+		ContactData contact = new ContactData();
+		contact.id = Integer.parseInt(getWebElement(
+				By.xpath("//input[@name='id']")).getAttribute("value"));
+		contact.lastname = getWebElement(By.xpath("//input[@name='lastname']"))
+				.getAttribute("value");
+		contact.firstname = getWebElement(
+				By.xpath("//input[@name='firstname']")).getAttribute("value");
+		contact.email1 = getWebElement(By.xpath("//input[@name='email']"))
+				.getAttribute("value");
+		contact.email2 = getWebElement(By.xpath("//input[@name='email2']"))
+				.getAttribute("value");
+		return contact;
 	}
 
 }

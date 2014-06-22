@@ -4,27 +4,23 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.testng.annotations.Test;
 
 public class MoveContactsBetweenGroups extends TestBase {
 
 	@Test
-	public void addContactsToSomeGroup() {
+	public void addContactToSomeGroup() {
 
 		app.getNavigationHelper().openMainPage();
 		List<ContactData> contactList = app.getContactHelper().getContacts();
-		Random rnd = new Random();
-		int contactIndex = rnd.nextInt(contactList.size() - 1);
+		int contactIndex = getRandomIndexOfList(contactList.size());
 		ContactData movingContact = contactList.get(contactIndex);
-
 		List<GroupData> groupListTo = app.getContactHelper()
 				.getGroupListOfCombobox("addToGroupList");
 		List<GroupData> groupListAll = app.getContactHelper()
 				.getGroupListOfCombobox("groupListOnMainPage");
-		Random rndTo = new Random();
-		int groupIndexTo = rndTo.nextInt(groupListTo.size() - 1);
+		int groupIndexTo = getRandomIndexOfList(groupListTo.size());
 
 		// save old state
 		app.getContactHelper().openContactListOfGroup(groupIndexTo + 2);
@@ -42,7 +38,6 @@ public class MoveContactsBetweenGroups extends TestBase {
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
-
 		app.getContactHelper().openContactListOfGroup("[all]");
 
 		// compare group lists (if different "compare states" will be invalid)
@@ -56,7 +51,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 
 		// compare states
 
-		if (groupListOfContact.contains(groupTo)) {
+		if ((groupTo.name.equals("")) || (groupListOfContact.contains(groupTo))) {
 
 			assertEquals(newList, oldList);
 
@@ -80,8 +75,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 
 		do {
 
-			Random rnd = new Random();
-			groupIndex = rnd.nextInt(groupList.size() - 1);
+			groupIndex = getRandomIndexOfList(groupList.size());
 			groupName = groupList.get(groupIndex).name;
 
 		} while (groupName.equals("") | groupName.equals("[all]")

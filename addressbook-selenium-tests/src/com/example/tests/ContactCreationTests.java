@@ -27,20 +27,28 @@ public class ContactCreationTests extends TestBase {
 		List<ContactData> newList = app.getContactHelper().getContacts();
 
 		// compare states
-		if (contact.lastname == null) {
-			contact.lastname = "";
+		ContactData newContact = new ContactData();
+		newContact.id = 999999999;
+		newContact.lastname = contact.lastname;
+		newContact.firstname = contact.firstname;
+		newContact.email1 = contact.email1;
+		newContact.email2 = contact.email2;
+
+		if (newContact.lastname == null) {
+			newContact.lastname = "";
 		}
-		if (contact.firstname == null) {
-			contact.firstname = "";
+		if (newContact.firstname == null) {
+			newContact.firstname = "";
 		}
-		// if (contact.email1 == null) {contact.email1="";}
-		if ((contact.email1 == null) || (contact.email1.isEmpty())) {
-			if (contact.email2 == null) {
-				contact.email2 = "";
+
+		if ((newContact.email1 == null) || (newContact.email1.equals(""))) {
+			if (newContact.email2 == null) {
+				newContact.email2 = "";
 			}
-			contact.email1 = contact.email2;
+			newContact.email1 = newContact.email2;
 		}
-		oldList.add(contact);
+
+		oldList.add(newContact);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
 

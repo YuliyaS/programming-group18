@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 public class GroupCreationTests extends TestBase {
 
-	
-
 	@Test(dataProvider = "randomValidGroupGenerator")
 	public void testGroupCreationWithValidData(GroupData group)
 			throws Exception {
@@ -30,7 +28,12 @@ public class GroupCreationTests extends TestBase {
 		List<GroupData> newList = app.getGroupHelper().getGroups();
 
 		// compare states
-		oldList.add(group);
+		GroupData newGroup = new GroupData();
+		newGroup.name = group.name;
+		if (newGroup.name == null) {
+			newGroup.name = "";
+		}
+		oldList.add(newGroup);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
 

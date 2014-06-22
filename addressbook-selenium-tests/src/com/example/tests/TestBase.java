@@ -101,14 +101,18 @@ public class TestBase {
 		Random rnd = new Random();
 		String randomYear = "";
 		if (rnd.nextInt(3) == 0) {
+			randomYear = null;
 		} else {
-			for (int i = 0; i < 5; i++) {
-				if (rnd.nextInt(5) == 0) {
-				} else {
-					randomYear = randomYear + rnd.nextInt(9);
+			if (rnd.nextInt(3) == 0) {
+			} else {
+				for (int i = 0; i < 3; i++) {
+					if (rnd.nextInt(5) == 0) {
+					} else {
+						randomYear = randomYear + rnd.nextInt(9);
+					}
 				}
-			}
 
+			}
 		}
 
 		return randomYear;
@@ -122,12 +126,21 @@ public class TestBase {
 			if (rnd.nextInt(3) == 0) {
 				randomString = "";
 			} else {
-				randomString = "test" + rnd.nextInt();
+				
+				randomString = generateRandomSimbol() + "test" + rnd.nextInt();
 			}
 
 		}
 
 		return randomString;
+	}
+	
+	public char generateRandomSimbol() {
+		Random rnd = new Random();
+		String str = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+		int index = rnd.nextInt(61);
+		char randomSimbol = str.charAt(index);
+		return randomSimbol;
 	}
 
 }
