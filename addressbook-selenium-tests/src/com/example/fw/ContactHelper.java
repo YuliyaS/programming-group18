@@ -11,6 +11,9 @@ import com.example.tests.GroupData;
 
 public class ContactHelper extends HelperBase {
 
+	public static boolean CREATION = true;
+	public static boolean MODIFICATION = false;
+
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);
 	}
@@ -24,7 +27,7 @@ public class ContactHelper extends HelperBase {
 		click(By.linkText("add new"));
 	}
 
-	public void fillContactForm(ContactData contact) {
+	public void fillContactForm(ContactData contact, boolean formTypeCreation) {
 		if (contact.firstname != null) {
 			type(By.name("firstname"), contact.firstname);
 		}
@@ -58,8 +61,17 @@ public class ContactHelper extends HelperBase {
 		if (contact.byear != null) {
 			type(By.name("byear"), contact.byear);
 		}
-		if (contact.group != null) {
-			selectByText(By.name("new_group"), contact.group);
+
+		if (formTypeCreation) {
+			if (contact.group != null) {
+				selectByText(By.name("new_group"), contact.group);
+			}
+
+		} else {
+			if (getListWebElements(By.name("new_group")).size() != 0) {
+				throw new Error(
+					"Group selector exists in contact modification form");
+			}
 		}
 		if (contact.address2 != null) {
 			type(By.name("address2"), contact.address2);
@@ -67,6 +79,82 @@ public class ContactHelper extends HelperBase {
 		if (contact.home_phone2 != null) {
 			type(By.name("phone2"), contact.home_phone2);
 		}
+	}
+
+	// private ContactData getVisibleContactDataOnContactPage(ContactData
+	// contact,
+	// boolean formType) {
+	// ContactData contactVisible = new ContactData();
+	// contactVisible.lastname = contact.lastname;
+	// contactVisible.firstname = contact.firstname;
+	// contactVisible.email1 = contact.email1;
+	// contactVisible.email2 = contact.email2;
+
+	// if (contactVisible.lastname == null) {
+	// contactVisible.lastname = "";
+	// }
+	// if (contactVisible.firstname == null) {
+	// contactVisible.firstname = "";
+	// }
+	// if (formType = CREATION) {
+	// contactVisible.id = 999999999;
+	// if ((contactVisible.email1 == null)
+	// || (contactVisible.email1.equals(""))) {
+	// if (contactVisible.email2 == null) {
+	// contactVisible.email2 = "";
+	// }
+	// contactVisible.email1 = contactVisible.email2;
+	// }
+	// }
+
+	// return contactVisible;
+	// }
+
+	public ContactData getContactDataVisibleOnContactsPage(ContactData contact,
+			ContactData oldContact, boolean formTypeCreation) {
+		ContactData contactVisible = new ContactData();
+		contactVisible.lastname = contact.lastname;
+		contactVisible.firstname = contact.firstname;
+		contactVisible.email1 = contact.email1;
+		contactVisible.email2 = contact.email2;
+		
+		if (formTypeCreation) {
+			contactVisible.id = 999999999;
+			if (contactVisible.lastname == null) {
+				contactVisible.lastname = "";
+			}
+			if (contactVisible.firstname == null) {
+				contactVisible.firstname = "";
+			}
+			if ((contactVisible.email1 == null)
+					|| (contactVisible.email1.equals(""))) {
+				if (contactVisible.email2 == null) {
+					contactVisible.email2 = "";
+				}
+				contactVisible.email1 = contactVisible.email2;
+			}
+		} else {
+			contactVisible.id = oldContact.id;
+			if (contactVisible.lastname == null) {
+				contactVisible.lastname = oldContact.lastname;
+			}
+
+			if (contactVisible.firstname == null) {
+				contactVisible.firstname = oldContact.firstname;
+			}
+
+			if (contactVisible.email1 == null) {
+				contactVisible.email1 = oldContact.email1;
+			}
+
+			if (contactVisible.email1.equals("")) {
+				if (contactVisible.email2 == null) {
+					contactVisible.email2 = oldContact.email2;
+				}
+				contactVisible.email1 = contactVisible.email2;
+			}
+		}
+		return contactVisible;
 	}
 
 	public void returnToHomePage() {
