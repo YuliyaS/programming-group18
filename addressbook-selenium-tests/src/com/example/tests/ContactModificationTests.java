@@ -28,35 +28,10 @@ public class ContactModificationTests extends TestBase {
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
+		ContactData newContact = app.getContactHelper().transformContactToVisibleOnContactsPage(contact, oldContact, MODIFICATION);
 
 		// compare states
 		oldList.remove(index);
-	//	ContactData newContact = new ContactData();
-	//	newContact.id = oldContact.id;
-	//	newContact.lastname = contact.lastname;
-	//	newContact.firstname = contact.firstname;
-	//	newContact.email1 = contact.email1;
-	//	newContact.email2 = contact.email2;
-
-	//	if (newContact.lastname == null) {
-	//		newContact.lastname = oldContact.lastname;
-	//	}
-
-	//	if (newContact.firstname == null) {
-	//		newContact.firstname = oldContact.firstname;
-	//	}
-
-	//	if (newContact.email1 == null) {
-		//	newContact.email1 = oldContact.email1;
-	//	}
-
-	//	if (newContact.email1.equals("")) {
-		//	if (newContact.email2 == null) {
-		//		newContact.email2 = oldContact.email2;
-		//	}
-		//	newContact.email1 = newContact.email2;
-	//	}
-		ContactData newContact = app.getContactHelper().getContactDataVisibleOnContactsPage(contact, oldContact, MODIFICATION);
 		oldList.add(index, newContact);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);

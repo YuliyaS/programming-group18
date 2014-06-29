@@ -16,13 +16,13 @@ public class MoveContactsBetweenGroups extends TestBase {
 		List<ContactData> contactList = app.getContactHelper().getContacts();
 		int contactIndex = getRandomIndexOfList(contactList.size());
 		ContactData movingContact = contactList.get(contactIndex);
-		List<GroupData> groupListTo = app.getContactHelper()
-				.getGroupListOfCombobox("addToGroupList");
-		List<GroupData> groupListAll = app.getContactHelper()
-				.getGroupListOfCombobox("groupListOnMainPage");
+		app.getNavigationHelper().gotoGroupsPage();
+		List<GroupData> groupListTo = app.getGroupHelper().getGroups();
 		int groupIndexTo = getRandomIndexOfList(groupListTo.size());
 
+
 		// save old state
+		app.getNavigationHelper().openMainPage();
 		app.getContactHelper().openContactListOfGroup(groupIndexTo + 2);
 		List<ContactData> oldList = app.getContactHelper().getContacts();
 
@@ -40,17 +40,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 		List<ContactData> newList = app.getContactHelper().getContacts();
 		app.getContactHelper().openContactListOfGroup("[all]");
 
-		// compare group lists (if different "compare states" will be invalid)
-		GroupData allGroup = new GroupData();
-		allGroup.name = "[all]";
-		groupListAll.remove(groupListAll.indexOf(allGroup));
-		GroupData noneGroup = new GroupData();
-		noneGroup.name = "[none]";
-		groupListAll.remove(groupListAll.indexOf(noneGroup));
-		assertEquals(groupListAll, groupListTo);
-
 		// compare states
-
 		if ((groupTo.name.equals("")) || (groupListOfContact.contains(groupTo))) {
 
 			assertEquals(newList, oldList);

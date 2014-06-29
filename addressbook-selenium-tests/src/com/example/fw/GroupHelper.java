@@ -10,6 +10,9 @@ import com.example.tests.GroupData;
 
 public class GroupHelper extends HelperBase {
 
+	public static boolean CREATION = true;
+	public static boolean MODIFICATION = false;
+
 	public GroupHelper(ApplicationManager manager) {
 		super(manager);
 	}
@@ -70,6 +73,35 @@ public class GroupHelper extends HelperBase {
 
 		}
 		return groups;
+	}
+
+	public List<GroupData> transformListGroups(List<GroupData> groups) {
+		GroupData noneGroup = new GroupData();
+		noneGroup.name = "[none]";
+		groups.add(0, noneGroup);
+		return groups;
+	}
+
+	public GroupData transformGroupToVisibleOnGroupsPage(GroupData group,
+			GroupData oldGroup, boolean creation) {
+		GroupData newGroup = new GroupData();
+		newGroup.name = group.name;
+		if (creation) {
+
+			if (newGroup.name == null) {
+				newGroup.name = "";
+
+			}
+
+		} else {
+
+			if (newGroup.name == null) {
+				newGroup.name = oldGroup.name;
+			}
+
+		}
+
+		return newGroup;
 	}
 
 }

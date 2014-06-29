@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
+import static com.example.fw.GroupHelper.CREATION;
 
 import org.testng.annotations.Test;
 
@@ -28,15 +29,13 @@ public class GroupCreationTests extends TestBase {
 		List<GroupData> newList = app.getGroupHelper().getGroups();
 
 		// compare states
-		GroupData newGroup = new GroupData();
-		newGroup.name = group.name;
-		if (newGroup.name == null) {
-			newGroup.name = "";
-		}
+		GroupData newGroup = app.getGroupHelper().transformGroupToVisibleOnGroupsPage(group, group, CREATION);
 		oldList.add(newGroup);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
 
 	}
+
+
 
 }

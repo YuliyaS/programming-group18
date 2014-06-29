@@ -26,7 +26,7 @@ public class ContactCreationTests extends TestBase {
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
-		ContactData newContact = app.getContactHelper().getContactDataVisibleOnContactsPage(contact,
+		ContactData newContact = app.getContactHelper().transformContactToVisibleOnContactsPage(contact,
 				contact, CREATION);
 
 		// compare states

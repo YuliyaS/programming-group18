@@ -1,10 +1,10 @@
 package com.example.tests;
 
+import static com.example.fw.GroupHelper.MODIFICATION;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.testng.annotations.Test;
 
 public class GroupModificationTests extends TestBase {
@@ -27,14 +27,10 @@ public class GroupModificationTests extends TestBase {
 
 		// save new state
 		List<GroupData> newList = app.getGroupHelper().getGroups();
+		GroupData newGroup = app.getGroupHelper().transformGroupToVisibleOnGroupsPage(group, oldGroup, MODIFICATION);
 
 		// compare states
 		oldList.remove(index);
-		GroupData newGroup = new GroupData();
-		newGroup.name = group.name;
-		if (newGroup.name == null) {
-			newGroup.name = oldGroup.name;
-		}
 		oldList.add(index, newGroup);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);

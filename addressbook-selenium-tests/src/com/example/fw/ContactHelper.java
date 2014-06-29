@@ -27,7 +27,7 @@ public class ContactHelper extends HelperBase {
 		click(By.linkText("add new"));
 	}
 
-	public void fillContactForm(ContactData contact, boolean formTypeCreation) {
+	public void fillContactForm(ContactData contact, boolean creation) {
 		if (contact.firstname != null) {
 			type(By.name("firstname"), contact.firstname);
 		}
@@ -62,7 +62,7 @@ public class ContactHelper extends HelperBase {
 			type(By.name("byear"), contact.byear);
 		}
 
-		if (formTypeCreation) {
+		if (creation) {
 			if (contact.group != null) {
 				selectByText(By.name("new_group"), contact.group);
 			}
@@ -81,44 +81,15 @@ public class ContactHelper extends HelperBase {
 		}
 	}
 
-	// private ContactData getVisibleContactDataOnContactPage(ContactData
-	// contact,
-	// boolean formType) {
-	// ContactData contactVisible = new ContactData();
-	// contactVisible.lastname = contact.lastname;
-	// contactVisible.firstname = contact.firstname;
-	// contactVisible.email1 = contact.email1;
-	// contactVisible.email2 = contact.email2;
-
-	// if (contactVisible.lastname == null) {
-	// contactVisible.lastname = "";
-	// }
-	// if (contactVisible.firstname == null) {
-	// contactVisible.firstname = "";
-	// }
-	// if (formType = CREATION) {
-	// contactVisible.id = 999999999;
-	// if ((contactVisible.email1 == null)
-	// || (contactVisible.email1.equals(""))) {
-	// if (contactVisible.email2 == null) {
-	// contactVisible.email2 = "";
-	// }
-	// contactVisible.email1 = contactVisible.email2;
-	// }
-	// }
-
-	// return contactVisible;
-	// }
-
-	public ContactData getContactDataVisibleOnContactsPage(ContactData contact,
-			ContactData oldContact, boolean formTypeCreation) {
+	public ContactData transformContactToVisibleOnContactsPage(ContactData contact,
+			ContactData oldContact, boolean creation) {
 		ContactData contactVisible = new ContactData();
 		contactVisible.lastname = contact.lastname;
 		contactVisible.firstname = contact.firstname;
 		contactVisible.email1 = contact.email1;
 		contactVisible.email2 = contact.email2;
 		
-		if (formTypeCreation) {
+		if (creation) {
 			contactVisible.id = 999999999;
 			if (contactVisible.lastname == null) {
 				contactVisible.lastname = "";
