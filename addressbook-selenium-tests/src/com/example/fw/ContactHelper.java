@@ -18,8 +18,46 @@ public class ContactHelper extends HelperBase {
 		super(manager);
 	}
 
+	private List<ContactData> cachedContacts;
+
+	public List<ContactData> getContacts() {
+		if (cachedContacts == null) {
+			rebuildCache();
+		}
+		return cachedContacts;
+
+	}
+
+	private void rebuildCache() {
+		cachedContacts = new ArrayList<ContactData>();
+		List<WebElement> rows = getListWebElements(By
+				.xpath("(//tr[@name='entry'])"));
+
+		for (WebElement row : rows) {
+			int index = rows.indexOf(row);
+			ContactData contact = getContactByIndex(index);
+			cachedContacts.add(contact);
+		}
+
+	}
+
+	public ContactData getContactByIndex(int index) {
+		ContactData contact = new ContactData();
+		contact.id = Integer.parseInt(getWebElement(
+				By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"))
+				.getAttribute("value"));
+		contact.lastname = getWebElement(
+				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
+		contact.firstname = getWebElement(
+				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
+		contact.email1 = getWebElement(
+				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
+		return contact;
+	}
+
 	public void submitContactCreation() {
 		click(By.name("submit"));
+		cachedContacts = null;
 
 	}
 
@@ -70,7 +108,7 @@ public class ContactHelper extends HelperBase {
 		} else {
 			if (getListWebElements(By.name("new_group")).size() != 0) {
 				throw new Error(
-					"Group selector exists in contact modification form");
+						"Group selector exists in contact modification form");
 			}
 		}
 		if (contact.address2 != null) {
@@ -81,14 +119,14 @@ public class ContactHelper extends HelperBase {
 		}
 	}
 
-	public ContactData transformContactToVisibleOnContactsPage(ContactData contact,
-			ContactData oldContact, boolean creation) {
+	public ContactData transformContactToVisibleOnContactsPage(
+			ContactData contact, ContactData oldContact, boolean creation) {
 		ContactData contactVisible = new ContactData();
 		contactVisible.lastname = contact.lastname;
 		contactVisible.firstname = contact.firstname;
 		contactVisible.email1 = contact.email1;
 		contactVisible.email2 = contact.email2;
-		
+
 		if (creation) {
 			contactVisible.id = 999999999;
 			if (contactVisible.lastname == null) {
@@ -134,6 +172,7 @@ public class ContactHelper extends HelperBase {
 
 	public void submitContactDeletion() {
 		click(By.xpath("(//input[@name='update'])[2]"));
+		cachedContacts = null;
 
 	}
 
@@ -143,12 +182,14 @@ public class ContactHelper extends HelperBase {
 
 	public void submitContactModification() {
 		click(By.name("update"));
+		cachedContacts = null;
 
 	}
 
 	public void addContactsToGroup(int index) {
 		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
 		click(By.name("add"));
+		cachedContacts = null;
 
 	}
 
@@ -167,46 +208,19 @@ public class ContactHelper extends HelperBase {
 
 	public void openContactListOfGroup(int index) {
 		click(By.xpath("//select[@name='group']/option[" + (index + 1) + "]"));
+		cachedContacts = null;
 	}
 
 	public void openContactListOfGroup(String name) {
 		selectByText(By.name("group"), name);
-
+		cachedContacts = null;
 	}
 
 	public void removeContactsFromGroup() {
 		selectAllContactsOnPage();
 		click(By.name("remove"));
+		cachedContacts = null;
 
-	}
-
-	public List<ContactData> getContacts() {
-
-		List<ContactData> contacts = new ArrayList<ContactData>();
-		List<WebElement> rows = driver.findElements(By
-				.xpath("(//tr[@name='entry'])"));
-
-		for (WebElement row : rows) {
-			int index = rows.indexOf(row);
-			ContactData contact = getContactByIndex(index);
-			contacts.add(contact);
-		}
-
-		return contacts;
-	}
-
-	public ContactData getContactByIndex(int index) {
-		ContactData contact = new ContactData();
-		contact.id = Integer.parseInt(getWebElement(
-				By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"))
-				.getAttribute("value"));
-		contact.lastname = getWebElement(
-				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
-		contact.firstname = getWebElement(
-				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
-		contact.email1 = getWebElement(
-				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
-		return contact;
 	}
 
 	private String switchCombobox(String combobox)

@@ -27,7 +27,9 @@ public class GroupModificationTests extends TestBase {
 
 		// save new state
 		List<GroupData> newList = app.getGroupHelper().getGroups();
-		GroupData newGroup = app.getGroupHelper().transformGroupToVisibleOnGroupsPage(group, oldGroup, MODIFICATION);
+		GroupData newGroup = app.getGroupHelper()
+				.transformGroupToVisibleOnGroupsPage(group, oldGroup,
+						MODIFICATION);
 
 		// compare states
 		oldList.remove(index);

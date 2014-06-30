@@ -111,12 +111,17 @@ public class TestBase {
 		if (rnd.nextInt(3) == 0) {
 			group.name = null;
 		} else {
-			app.getNavigationHelper().gotoGroupsPage();
-			List<GroupData> list = app.getGroupHelper().getGroups();
-			app.getGroupHelper().transformListGroups(list);
-			int index = getRandomIndexOfList(list.size());
-			group = list.get(index);
+			if (rnd.nextInt(3) == 0) {
+				group.name = "[none]";
+			} else {
+
+				app.getNavigationHelper().gotoGroupsPage();
+				List<GroupData> list = app.getGroupHelper().getGroups();
+				int index = getRandomIndexOfList(list.size());
+				group = list.get(index);
+			}
 		}
+
 		return group;
 	}
 

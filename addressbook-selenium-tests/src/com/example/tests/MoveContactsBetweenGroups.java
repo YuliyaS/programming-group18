@@ -20,7 +20,6 @@ public class MoveContactsBetweenGroups extends TestBase {
 		List<GroupData> groupListTo = app.getGroupHelper().getGroups();
 		int groupIndexTo = getRandomIndexOfList(groupListTo.size());
 
-
 		// save old state
 		app.getNavigationHelper().openMainPage();
 		app.getContactHelper().openContactListOfGroup(groupIndexTo + 2);

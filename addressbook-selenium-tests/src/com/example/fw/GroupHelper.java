@@ -17,6 +17,30 @@ public class GroupHelper extends HelperBase {
 		super(manager);
 	}
 
+	private List<GroupData> cachedGroups;
+
+	public List<GroupData> getGroups() {
+		if (cachedGroups == null) {
+			rebuildCache();
+		}
+		return cachedGroups;
+
+	}
+
+	private void rebuildCache() {
+		cachedGroups = new ArrayList<GroupData>();
+		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			GroupData group = new GroupData();
+			String title = checkbox.getAttribute("title");
+			group.name = title.substring("Select (".length(), title.length()
+					- ")".length());
+			cachedGroups.add(group);
+
+		}
+
+	}
+
 	public void initGroupCreation() {
 		click(By.name("new"));
 	}
@@ -35,6 +59,7 @@ public class GroupHelper extends HelperBase {
 
 	public void submitGroupCreation() {
 		click(By.name("submit"));
+		cachedGroups = null;
 
 	}
 
@@ -45,6 +70,7 @@ public class GroupHelper extends HelperBase {
 	public void deleteGroup(int index) {
 		selectGroupByIndex(index);
 		click(By.name("delete"));
+		cachedGroups = null;
 	}
 
 	private void selectGroupByIndex(int index) {
@@ -58,28 +84,8 @@ public class GroupHelper extends HelperBase {
 
 	public void submitGroupModification() {
 		click(By.name("update"));
+		cachedGroups = null;
 
-	}
-
-	public List<GroupData> getGroups() {
-		List<GroupData> groups = new ArrayList<GroupData>();
-		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			GroupData group = new GroupData();
-			String title = checkbox.getAttribute("title");
-			group.name = title.substring("Select (".length(), title.length()
-					- ")".length());
-			groups.add(group);
-
-		}
-		return groups;
-	}
-
-	public List<GroupData> transformListGroups(List<GroupData> groups) {
-		GroupData noneGroup = new GroupData();
-		noneGroup.name = "[none]";
-		groups.add(0, noneGroup);
-		return groups;
 	}
 
 	public GroupData transformGroupToVisibleOnGroupsPage(GroupData group,

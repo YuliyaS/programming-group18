@@ -28,7 +28,9 @@ public class ContactModificationTests extends TestBase {
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
-		ContactData newContact = app.getContactHelper().transformContactToVisibleOnContactsPage(contact, oldContact, MODIFICATION);
+		ContactData newContact = app.getContactHelper()
+				.transformContactToVisibleOnContactsPage(contact, oldContact,
+						MODIFICATION);
 
 		// compare states
 		oldList.remove(index);
