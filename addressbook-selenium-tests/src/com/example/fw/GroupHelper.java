@@ -27,8 +27,9 @@ public class GroupHelper extends HelperBase {
 
 	}
 
-	private void rebuildCache() {
+	private GroupHelper rebuildCache() {
 		cachedGroups = new ArrayList<GroupData>();
+		manager.navigateTo().groupsPage();
 		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
 		for (WebElement checkbox : checkboxes) {
 			String title = checkbox.getAttribute("title");
@@ -37,14 +38,45 @@ public class GroupHelper extends HelperBase {
 			cachedGroups.add(new GroupData().withName(name));
 
 		}
+		return this;
 
 	}
 
-	public void initGroupCreation() {
+	public GroupHelper createGroup(GroupData group) {
+		manager.navigateTo().groupsPage();
+		initGroupCreation();
+		fillGroupForm(group);
+		submitGroupCreation();
+		returnToGroupsPage();
+		return this;
+	}
+
+	public GroupHelper modifyGroup(GroupData group, int index) {
+		manager.navigateTo().groupsPage();
+		initGroupModification(index);
+		fillGroupForm(group);
+		submitGroupModification();
+		returnToGroupsPage();
+		return this;
+	}
+
+	public GroupHelper deleteGroup(int index) {
+		selectGroupByIndex(index);
+		submitGroupDeletion();
+		returnToGroupsPage();
+		cachedGroups = null;
+		return this;
+	}
+
+	// -----------------------------------------------------------------------------------
+
+	public GroupHelper initGroupCreation() {
+		manager.navigateTo().groupsPage();
 		click(By.name("new"));
+		return this;
 	}
 
-	public void fillGroupForm(GroupData group) {
+	public GroupHelper fillGroupForm(GroupData group) {
 		if (group.getName() != null) {
 			type(By.name("group_name"), group.getName());
 		}
@@ -54,44 +86,42 @@ public class GroupHelper extends HelperBase {
 		if (group.getFooter() != null) {
 			type(By.name("group_footer"), group.getFooter());
 		}
+		return this;
 	}
 
-	public void submitGroupCreation() {
+	public GroupHelper submitGroupCreation() {
 		click(By.name("submit"));
 		cachedGroups = null;
-
+		return this;
 	}
 
-	public void returnToGroupsPage() {
+	public GroupHelper returnToGroupsPage() {
 		click(By.linkText("group page"));
+		return this;
 	}
 
-	public void deleteGroup(int index) {
-		selectGroupByIndex(index);
-		click(By.name("delete"));
-		cachedGroups = null;
-	}
-
-	private void selectGroupByIndex(int index) {
+	private GroupHelper selectGroupByIndex(int index) {
 		click(By.xpath("//input[@name='selected[]'][" + (index + 1) + "]"));
+		return this;
 	}
 
-	public void initGroupModification(int index) {
+	public GroupHelper initGroupModification(int index) {
 		selectGroupByIndex(index);
 		click(By.name("edit"));
+		return this;
 	}
 
-	public void submitGroupModification() {
+	public GroupHelper submitGroupModification() {
 		click(By.name("update"));
 		cachedGroups = null;
-
+		return this;
 	}
 
 	public GroupData transformGroupToVisibleOnGroupsPage(GroupData group,
-			GroupData oldGroup, boolean creation) {
+			GroupData oldGroup, boolean formType) {
 
 		String name = group.getName();
-		if (creation) {
+		if (formType == CREATION) {
 
 			if (name == null) {
 				name = "";
@@ -107,6 +137,11 @@ public class GroupHelper extends HelperBase {
 		}
 
 		return new GroupData().withName(name);
+	}
+
+	private GroupHelper submitGroupDeletion() {
+		click(By.name("delete"));
+		return this;
 	}
 
 }

@@ -12,16 +12,16 @@ public class MoveContactsBetweenGroups extends TestBase {
 	@Test
 	public void addContactToSomeGroup() {
 
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 		List<ContactData> contactList = app.getContactHelper().getContacts();
 		int contactIndex = getRandomIndexOfList(contactList.size());
 		ContactData movingContact = contactList.get(contactIndex);
-		app.getNavigationHelper().gotoGroupsPage();
+		app.navigateTo().groupsPage();
 		List<GroupData> groupListTo = app.getGroupHelper().getGroups();
 		int groupIndexTo = getRandomIndexOfList(groupListTo.size());
 
 		// save old state
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 		app.getContactHelper().openContactListOfGroup(groupIndexTo + 2);
 		List<ContactData> oldList = app.getContactHelper().getContacts();
 
@@ -29,7 +29,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 		app.getContactHelper().openContactListOfGroup("[all]");
 		List<GroupData> groupListOfContact = app.getContactHelper()
 				.getGroupListOfContact(contactIndex);
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 		app.getContactHelper().selectContactByIndex(contactIndex);
 		app.getContactHelper().addContactsToGroup(groupIndexTo);
 		GroupData groupTo = groupListTo.get(groupIndexTo);
@@ -56,7 +56,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 
 	@Test
 	public void removeAllContactsFromSomeGroup() {
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 		List<GroupData> groupList = app.getContactHelper()
 				.getGroupListOfCombobox("groupListOnMainPage");
 		String groupName;

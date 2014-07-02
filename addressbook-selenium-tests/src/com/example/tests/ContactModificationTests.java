@@ -12,7 +12,7 @@ public class ContactModificationTests extends TestBase {
 
 	@Test(dataProvider = "randomValidContactGenerator")
 	public void modifySomeContact(ContactData contact) throws Exception {
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 
 		// save old state
 		List<ContactData> oldList = app.getContactHelper().getContacts();

@@ -79,5 +79,9 @@ public abstract class HelperBase {
 	protected List<WebElement> getListWebElements(By locator) {
 		return driver.findElements(locator);
 	}
+	
+	protected String getCurrentUrl() {
+		return driver.getCurrentUrl();
+	}
 
 }

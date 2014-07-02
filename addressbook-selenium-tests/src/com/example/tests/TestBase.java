@@ -44,7 +44,7 @@ public class TestBase {
 	@DataProvider
 	public Iterator<Object[]> randomValidContactGenerator() {
 		List<Object[]> list = new ArrayList<Object[]>();
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 
 		for (int i = 0; i < 5; i++) {
 			String DOB = RandomDOB();
@@ -88,7 +88,7 @@ public class TestBase {
 				group.withName("[none]");
 			} else {
 
-				app.getNavigationHelper().gotoGroupsPage();
+				app.navigateTo().groupsPage();
 				List<GroupData> list = app.getGroupHelper().getGroups();
 				int index = getRandomIndexOfList(list.size());
 				group = list.get(index);

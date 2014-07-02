@@ -64,7 +64,7 @@ public class ContactHelper extends HelperBase {
 		click(By.linkText("add new"));
 	}
 
-	public void fillContactForm(ContactData contact, boolean creation) {
+	public void fillContactForm(ContactData contact, boolean formType) {
 		if (contact.getFirstname() != null) {
 			type(By.name("firstname"), contact.getFirstname());
 		}
@@ -99,7 +99,7 @@ public class ContactHelper extends HelperBase {
 			type(By.name("byear"), contact.getByear());
 		}
 
-		if (creation) {
+		if (formType == CREATION) {
 			if (contact.getGroup() != null) {
 				selectByText(By.name("new_group"), contact.getGroup());
 			}
@@ -119,15 +119,14 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public ContactData transformContactToVisibleOnContactsPage(
-			ContactData contact, ContactData oldContact, boolean creation) {
-		ContactData contactVisible = new ContactData();
+			ContactData contact, ContactData oldContact, boolean formType) {
 		String lastname = contact.getLastname();
 		String firstname = contact.getFirstname();
 		String email1 = contact.getEmail1();
 		String email2 = contact.getEmail2();
 		int id;
 
-		if (creation) {
+		if (formType == CREATION) {
 			id = 999999999;
 			if (lastname == null) {
 				lastname = "";
