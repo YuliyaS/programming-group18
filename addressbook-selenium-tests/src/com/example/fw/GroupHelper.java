@@ -31,11 +31,10 @@ public class GroupHelper extends HelperBase {
 		cachedGroups = new ArrayList<GroupData>();
 		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
 		for (WebElement checkbox : checkboxes) {
-			GroupData group = new GroupData();
 			String title = checkbox.getAttribute("title");
-			group.name = title.substring("Select (".length(), title.length()
+			String name = title.substring("Select (".length(), title.length()
 					- ")".length());
-			cachedGroups.add(group);
+			cachedGroups.add(new GroupData().withName(name));
 
 		}
 
@@ -46,14 +45,14 @@ public class GroupHelper extends HelperBase {
 	}
 
 	public void fillGroupForm(GroupData group) {
-		if (group.name != null) {
-			type(By.name("group_name"), group.name);
+		if (group.getName() != null) {
+			type(By.name("group_name"), group.getName());
 		}
-		if (group.header != null) {
-			type(By.name("group_header"), group.header);
+		if (group.getHeader() != null) {
+			type(By.name("group_header"), group.getHeader());
 		}
-		if (group.footer != null) {
-			type(By.name("group_footer"), group.footer);
+		if (group.getFooter() != null) {
+			type(By.name("group_footer"), group.getFooter());
 		}
 	}
 
@@ -90,24 +89,24 @@ public class GroupHelper extends HelperBase {
 
 	public GroupData transformGroupToVisibleOnGroupsPage(GroupData group,
 			GroupData oldGroup, boolean creation) {
-		GroupData newGroup = new GroupData();
-		newGroup.name = group.name;
+
+		String name = group.getName();
 		if (creation) {
 
-			if (newGroup.name == null) {
-				newGroup.name = "";
+			if (name == null) {
+				name = "";
 
 			}
 
 		} else {
 
-			if (newGroup.name == null) {
-				newGroup.name = oldGroup.name;
+			if (name == null) {
+				name = oldGroup.getName();
 			}
 
 		}
 
-		return newGroup;
+		return new GroupData().withName(name);
 	}
 
 }

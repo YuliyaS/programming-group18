@@ -33,10 +33,9 @@ public class TestBase {
 	public Iterator<Object[]> randomValidGroupGenerator() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		for (int i = 0; i < 5; i++) {
-			GroupData group = new GroupData();
-			group.name = generateRandomString();
-			group.header = generateRandomString();
-			group.footer = generateRandomString();
+			GroupData group = new GroupData().withName(generateRandomString())
+					.withHeader(generateRandomString())
+					.withFooter(generateRandomString());
 			list.add(new Object[] { group });
 		}
 		return list.iterator();
@@ -48,47 +47,21 @@ public class TestBase {
 		app.getNavigationHelper().openMainPage();
 
 		for (int i = 0; i < 5; i++) {
-
-			ContactData contact = new ContactData();
-
-			contact.firstname = generateRandomString();
-			contact.lastname = generateRandomString();
-			contact.address1 = generateRandomString();
-			contact.home_phone1 = generateRandomString();
-			contact.mobile_phone = generateRandomString();
-			contact.work_phone = generateRandomString();
-			contact.email1 = generateRandomString();
-			contact.email2 = generateRandomString();
-			contact.address2 = generateRandomString();
-			contact.home_phone2 = generateRandomString();
-			String DOB = randomDOB();
-			String[] DMY = DOB.split("/");
-			String bday = DMY[0];
-			String bmonth = DMY[1];
-			String byear = DMY[2];
-			if (bday.equals("null")) {
-				contact.bday = null;
-			} else {
-				contact.bday = bday;
-			}
-			if (bmonth.equals("null")) {
-				contact.bmonth = null;
-			} else {
-				contact.bmonth = bmonth;
-			}
-			if (byear.equals("null")) {
-				contact.byear = null;
-			} else {
-				if (byear.equals(" ")) {
-					contact.byear = "";
-				} else {
-					contact.byear = byear;
-				}
-
-			}
-
-			contact.group = getRandomGroup().name;
-
+			String DOB = RandomDOB();
+			ContactData contact = new ContactData()
+					.withFirstname(generateRandomString())
+					.withLastname(generateRandomString())
+					.withAddress1(generateRandomString())
+					.withHomePhone1(generateRandomString())
+					.withMobilePhone(generateRandomString())
+					.withWorkPhone(generateRandomString())
+					.withEmail1(generateRandomString())
+					.withEmail2(generateRandomString())
+					.withAddress2(generateRandomString())
+					.withHomePhone2(generateRandomString())
+					.withBday(randomBday(DOB)).withBmonth(randomBmonth(DOB))
+					.withByear(randomByear(DOB))
+					.withGroup(getRandomGroup().getName());
 			list.add(new Object[] { contact });
 		}
 		return list.iterator();
@@ -109,10 +82,10 @@ public class TestBase {
 		GroupData group = new GroupData();
 		Random rnd = new Random();
 		if (rnd.nextInt(3) == 0) {
-			group.name = null;
+			group.withName(null);
 		} else {
 			if (rnd.nextInt(3) == 0) {
-				group.name = "[none]";
+				group.withName("[none]");
 			} else {
 
 				app.getNavigationHelper().gotoGroupsPage();
@@ -150,8 +123,56 @@ public class TestBase {
 		return randomSimbol;
 	}
 
-	public static String randomDOB() {
+	public String randomBday(String DOB) {
 		Random rnd = new Random();
+		String bday = null;
+		if (rnd.nextInt(5) == 0) {
+		} else {
+			if (rnd.nextInt(5) == 0) {
+				bday = "-";
+			} else {
+				String[] DMY = DOB.split("/");
+				bday = DMY[0];
+			}
+
+		}
+		return bday;
+	}
+
+	public String randomBmonth(String DOB) {
+		Random rnd = new Random();
+		String bmonth = null;
+		if (rnd.nextInt(5) == 0) {
+		} else {
+			if (rnd.nextInt(5) == 0) {
+				bmonth = "-";
+			} else {
+				String[] DMY = DOB.split("/");
+				bmonth = DMY[1];
+			}
+
+		}
+		return bmonth;
+	}
+
+	public String randomByear(String DOB) {
+		Random rnd = new Random();
+		String byear = null;
+		if (rnd.nextInt(5) == 0) {
+		} else {
+			if (rnd.nextInt(5) == 0) {
+				byear = "";
+			} else {
+				String[] DMY = DOB.split("/");
+				byear = DMY[2];
+			}
+		}
+
+		return byear;
+	}
+
+	public String RandomDOB() {
+		// Random rnd = new Random();
 		int yyyy = random(1900, 2013);
 		int mm = random(1, 12);
 		int dd = 0;
@@ -201,30 +222,6 @@ public class TestBase {
 
 		String year = Integer.toString(yyyy);
 		String day = Integer.toString(dd);
-
-		if (rnd.nextInt(4) == 0) {
-			day = null;
-		} else {
-			if (rnd.nextInt(4) == 0) {
-				day = "-";
-			}
-		}
-
-		if (rnd.nextInt(4) == 0) {
-			month = null;
-		} else {
-			if (rnd.nextInt(4) == 0) {
-				month = "-";
-			}
-		}
-
-		if (rnd.nextInt(4) == 0) {
-			year = null;
-		} else {
-			if (rnd.nextInt(4) == 0) {
-				year = " ";
-			}
-		}
 
 		return day + '/' + month + '/' + year;
 	}

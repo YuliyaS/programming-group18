@@ -42,17 +42,16 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public ContactData getContactByIndex(int index) {
-		ContactData contact = new ContactData();
-		contact.id = Integer.parseInt(getWebElement(
+		int id = Integer.parseInt(getWebElement(
 				By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"))
 				.getAttribute("value"));
-		contact.lastname = getWebElement(
+		String lastname = getWebElement(
 				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
-		contact.firstname = getWebElement(
+		String firstname = getWebElement(
 				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
-		contact.email1 = getWebElement(
+		String email1 = getWebElement(
 				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
-		return contact;
+		return new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).withEmail1(email1);
 	}
 
 	public void submitContactCreation() {
@@ -66,43 +65,43 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public void fillContactForm(ContactData contact, boolean creation) {
-		if (contact.firstname != null) {
-			type(By.name("firstname"), contact.firstname);
+		if (contact.getFirstname() != null) {
+			type(By.name("firstname"), contact.getFirstname());
 		}
-		if (contact.lastname != null) {
-			type(By.name("lastname"), contact.lastname);
+		if (contact.getLastname() != null) {
+			type(By.name("lastname"), contact.getLastname());
 		}
-		if (contact.address1 != null) {
-			type(By.name("address"), contact.address1);
+		if (contact.getAddress1() != null) {
+			type(By.name("address"), contact.getAddress1());
 		}
-		if (contact.home_phone1 != null) {
-			type(By.name("home"), contact.home_phone1);
+		if (contact.getHomePhone1() != null) {
+			type(By.name("home"), contact.getHomePhone1());
 		}
-		if (contact.mobile_phone != null) {
-			type(By.name("mobile"), contact.mobile_phone);
+		if (contact.getMobilePhone() != null) {
+			type(By.name("mobile"), contact.getMobilePhone());
 		}
-		if (contact.work_phone != null) {
-			type(By.name("work"), contact.work_phone);
+		if (contact.getWorkPhone() != null) {
+			type(By.name("work"), contact.getWorkPhone());
 		}
-		if (contact.email1 != null) {
-			type(By.name("email"), contact.email1);
+		if (contact.getEmail1() != null) {
+			type(By.name("email"), contact.getEmail1());
 		}
-		if (contact.email2 != null) {
-			type(By.name("email2"), contact.email2);
+		if (contact.getEmail2() != null) {
+			type(By.name("email2"), contact.getEmail2());
 		}
-		if (contact.bday != null) {
-			selectByText(By.name("bday"), contact.bday);
+		if (contact.getBday() != null) {
+			selectByText(By.name("bday"), contact.getBday());
 		}
-		if (contact.bmonth != null) {
-			selectByText(By.name("bmonth"), contact.bmonth);
+		if (contact.getBmonth() != null) {
+			selectByText(By.name("bmonth"), contact.getBmonth());
 		}
-		if (contact.byear != null) {
-			type(By.name("byear"), contact.byear);
+		if (contact.getByear() != null) {
+			type(By.name("byear"), contact.getByear());
 		}
 
 		if (creation) {
-			if (contact.group != null) {
-				selectByText(By.name("new_group"), contact.group);
+			if (contact.getGroup() != null) {
+				selectByText(By.name("new_group"), contact.getGroup());
 			}
 
 		} else {
@@ -111,59 +110,60 @@ public class ContactHelper extends HelperBase {
 						"Group selector exists in contact modification form");
 			}
 		}
-		if (contact.address2 != null) {
-			type(By.name("address2"), contact.address2);
+		if (contact.getAddress2() != null) {
+			type(By.name("address2"), contact.getAddress2());
 		}
-		if (contact.home_phone2 != null) {
-			type(By.name("phone2"), contact.home_phone2);
+		if (contact.getHomePhone2() != null) {
+			type(By.name("phone2"), contact.getHomePhone2());
 		}
 	}
 
 	public ContactData transformContactToVisibleOnContactsPage(
 			ContactData contact, ContactData oldContact, boolean creation) {
 		ContactData contactVisible = new ContactData();
-		contactVisible.lastname = contact.lastname;
-		contactVisible.firstname = contact.firstname;
-		contactVisible.email1 = contact.email1;
-		contactVisible.email2 = contact.email2;
+		String lastname = contact.getLastname();
+		String firstname = contact.getFirstname();
+		String email1 = contact.getEmail1();
+		String email2 = contact.getEmail2();
+		int id;
 
 		if (creation) {
-			contactVisible.id = 999999999;
-			if (contactVisible.lastname == null) {
-				contactVisible.lastname = "";
+			id = 999999999;
+			if (lastname == null) {
+				lastname = "";
 			}
-			if (contactVisible.firstname == null) {
-				contactVisible.firstname = "";
+			if (firstname == null) {
+				firstname = "";
 			}
-			if ((contactVisible.email1 == null)
-					|| (contactVisible.email1.equals(""))) {
-				if (contactVisible.email2 == null) {
-					contactVisible.email2 = "";
+			if ((email1 == null)
+					|| (email1.equals(""))) {
+				if (email2 == null) {
+					email2 = "";
 				}
-				contactVisible.email1 = contactVisible.email2;
+				email1 = email2;
 			}
 		} else {
-			contactVisible.id = oldContact.id;
-			if (contactVisible.lastname == null) {
-				contactVisible.lastname = oldContact.lastname;
+			id = oldContact.getId();
+			if (lastname == null) {
+				lastname = oldContact.getLastname();
 			}
 
-			if (contactVisible.firstname == null) {
-				contactVisible.firstname = oldContact.firstname;
+			if (firstname == null) {
+				firstname = oldContact.getFirstname();
 			}
 
-			if (contactVisible.email1 == null) {
-				contactVisible.email1 = oldContact.email1;
+			if (email1 == null) {
+				email1 = oldContact.getEmail1();
 			}
 
-			if (contactVisible.email1.equals("")) {
-				if (contactVisible.email2 == null) {
-					contactVisible.email2 = oldContact.email2;
+			if (email1.equals("")) {
+				if (email2 == null) {
+					email2 = oldContact.getEmail2();
 				}
-				contactVisible.email1 = contactVisible.email2;
+				email1 = email2;
 			}
 		}
-		return contactVisible;
+		return new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).withEmail1(email1);
 	}
 
 	public void returnToHomePage() {
@@ -259,7 +259,7 @@ public class ContactHelper extends HelperBase {
 		List<WebElement> options = getListWebElements(By.xpath(choiceCombobox));
 		for (WebElement option : options) {
 			GroupData group = new GroupData();
-			group.name = option.getText();
+			group.withName(option.getText());
 			groups.add(group);
 
 		}
@@ -274,17 +274,16 @@ public class ContactHelper extends HelperBase {
 
 		for (WebElement groupname : groupnames) {
 			int groupIndex = groupnames.indexOf(groupname);
-			GroupData group = new GroupData();
-			group.name = getWebElement(
+			String name = getWebElement(
 					By.xpath("//*[@id='content']/i/a[" + (groupIndex + 1) + "]"))
 					.getText();
 
-			if (group.name.equals(null)) {
+			if (name.equals(null)) {
 
-				group.name = "";
+				name = "";
 			}
 
-			groups.add(group);
+			groups.add(new GroupData().withName(name));
 		}
 
 		return groups;
@@ -310,18 +309,17 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public ContactData getContactDataOnEditingForm() {
-		ContactData contact = new ContactData();
-		contact.id = Integer.parseInt(getWebElement(
+		int id = Integer.parseInt(getWebElement(
 				By.xpath("//input[@name='id']")).getAttribute("value"));
-		contact.lastname = getWebElement(By.xpath("//input[@name='lastname']"))
+		String lastname = getWebElement(By.xpath("//input[@name='lastname']"))
 				.getAttribute("value");
-		contact.firstname = getWebElement(
+		String firstname = getWebElement(
 				By.xpath("//input[@name='firstname']")).getAttribute("value");
-		contact.email1 = getWebElement(By.xpath("//input[@name='email']"))
+		String email1 = getWebElement(By.xpath("//input[@name='email']"))
 				.getAttribute("value");
-		contact.email2 = getWebElement(By.xpath("//input[@name='email2']"))
+		String email2 = getWebElement(By.xpath("//input[@name='email2']"))
 				.getAttribute("value");
-		return contact;
+		return new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).withEmail1(email1).withEmail2(email2);
 	}
 
 }

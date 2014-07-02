@@ -33,14 +33,14 @@ public class MoveContactsBetweenGroups extends TestBase {
 		app.getContactHelper().selectContactByIndex(contactIndex);
 		app.getContactHelper().addContactsToGroup(groupIndexTo);
 		GroupData groupTo = groupListTo.get(groupIndexTo);
-		app.getContactHelper().gotoContactListOfGroupByLink(groupTo.name);
+		app.getContactHelper().gotoContactListOfGroupByLink(groupTo.getName());
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
 		app.getContactHelper().openContactListOfGroup("[all]");
 
 		// compare states
-		if ((groupTo.name.equals("")) || (groupListOfContact.contains(groupTo))) {
+		if ((groupTo.getName().equals("")) || (groupListOfContact.contains(groupTo))) {
 
 			assertEquals(newList, oldList);
 
@@ -65,7 +65,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 		do {
 
 			groupIndex = getRandomIndexOfList(groupList.size());
-			groupName = groupList.get(groupIndex).name;
+			groupName = groupList.get(groupIndex).getName();
 
 		} while (groupName.equals("") | groupName.equals("[all]")
 				| groupName.equals("[none]"));
