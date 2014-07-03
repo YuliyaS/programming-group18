@@ -48,6 +48,7 @@ public class ContactHelper extends HelperBase {
 		fillContactForm(contact, CREATION);
 		submitContactCreation();
 		returnToHomePage();
+		rebuildCache();
 	}
 
 	public void modifyContact(int index, ContactData contact) {
@@ -56,6 +57,7 @@ public class ContactHelper extends HelperBase {
 		fillContactForm(contact, MODIFICATION);
 		submitContactModification();
 		returnToHomePage();
+		rebuildCache();
 	}
 
 	public void deleteContact(int index) {
@@ -63,13 +65,15 @@ public class ContactHelper extends HelperBase {
 		initContactModification(index);
 		submitContactDeletion();
 		returnToHomePage();
+		rebuildCache();
 	}
 
 	public void addSomeContactToGroup(int contactIndex, int groupIndex,
 			String groupName) {
 		manager.navigateTo().mainPage();
 		selectContactByIndex(contactIndex);
-		addContactsToGroup(groupIndex);
+		selectGroupFromList(groupIndex);
+		submitAddContactsToGroup();
 		gotoContactListOfGroupByLink(groupName);
 	}
 
@@ -243,12 +247,16 @@ public class ContactHelper extends HelperBase {
 
 	}
 
-	public ContactHelper addContactsToGroup(int index) {
-		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
+	public ContactHelper submitAddContactsToGroup() {
 		click(By.name("add"));
 		cachedContacts = null;
 		return this;
 
+	}
+
+	private ContactHelper selectGroupFromList(int index) {
+		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
+		return this;
 	}
 
 	public ContactHelper selectContactByIndex(int index) {

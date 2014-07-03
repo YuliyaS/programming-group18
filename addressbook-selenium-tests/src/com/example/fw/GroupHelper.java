@@ -48,6 +48,7 @@ public class GroupHelper extends HelperBase {
 		fillGroupForm(group);
 		submitGroupCreation();
 		returnToGroupsPage();
+		rebuildCache();
 		return this;
 	}
 
@@ -57,6 +58,7 @@ public class GroupHelper extends HelperBase {
 		fillGroupForm(group);
 		submitGroupModification();
 		returnToGroupsPage();
+		rebuildCache();
 		return this;
 	}
 
@@ -65,14 +67,13 @@ public class GroupHelper extends HelperBase {
 		selectGroupByIndex(index);
 		submitGroupDeletion();
 		returnToGroupsPage();
-		cachedGroups = null;
+		rebuildCache();
 		return this;
 	}
 
 	// -----------------------------------------------------------------------------------
 
 	public GroupHelper initGroupCreation() {
-		manager.navigateTo().groupsPage();
 		click(By.name("new"));
 		return this;
 	}
@@ -142,6 +143,7 @@ public class GroupHelper extends HelperBase {
 
 	private GroupHelper submitGroupDeletion() {
 		click(By.name("delete"));
+		cachedGroups = null;
 		return this;
 	}
 
