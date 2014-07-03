@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
 import com.example.tests.GroupData;
+import com.example.utils.SortedListOf;
 
 public class ContactHelper extends HelperBase {
 
@@ -18,9 +19,9 @@ public class ContactHelper extends HelperBase {
 		super(manager);
 	}
 
-	private List<ContactData> cachedContacts;
+	private SortedListOf<ContactData> cachedContacts;
 
-	public List<ContactData> getContacts() {
+	public SortedListOf<ContactData> getContacts() {
 		if (cachedContacts == null) {
 			rebuildCache();
 		}
@@ -29,7 +30,7 @@ public class ContactHelper extends HelperBase {
 	}
 
 	private ContactHelper rebuildCache() {
-		cachedContacts = new ArrayList<ContactData>();
+		cachedContacts = new SortedListOf<ContactData>();
 		manager.navigateTo().mainPage();
 		List<WebElement> rows = getContactTable();
 
@@ -38,6 +39,7 @@ public class ContactHelper extends HelperBase {
 			ContactData contact = getContactByIndex(index);
 			cachedContacts.add(contact);
 		}
+		//openContactListOfGroup("[all]");
 		return this;
 
 	}
@@ -85,7 +87,7 @@ public class ContactHelper extends HelperBase {
 		gotoContactListOfGroupByLink(groupName);
 	}
 
-	// ----------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------
 
 	private List<WebElement> getContactTable() {
 		List<WebElement> rows = getListWebElements(By
@@ -255,7 +257,8 @@ public class ContactHelper extends HelperBase {
 	}
 
 	private ContactHelper selectGroupFromList(int index) {
-		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
+		click(By.xpath("" + switchCombobox("addToGroupList") + "["
+				+ (index + 1) + "]"));
 		return this;
 	}
 
@@ -278,16 +281,25 @@ public class ContactHelper extends HelperBase {
 
 	public ContactHelper openContactListOfGroup(int index) {
 		manager.navigateTo().mainPage();
-		click(By.xpath("//select[@name='group']/option[" + (index + 1) + "]"));
+		click(By.xpath("" + switchCombobox("groupListOnMainPage") + "["
+				+ (index + 1) + "]"));
 		cachedContacts = null;
 		return this;
 	}
 
 	public ContactHelper openContactListOfGroup(String name) {
-		manager.navigateTo().mainPage();
-		selectByText(By.name("group"), name);
-		cachedContacts = null;
+		if (!contactListOfGroupAlreadyOpen(name)) {
+			manager.navigateTo().mainPage();
+			selectByText(By.name("group"), name);
+			cachedContacts = null;
+		}
 		return this;
+	}
+
+	private boolean contactListOfGroupAlreadyOpen(String name) {
+		return (name == getWebElement(
+				By.xpath("" + switchCombobox("groupListOnMainPage") + "[" + 1
+						+ "]")).getText());
 	}
 
 	public ContactHelper submitContactRemovalFromGroup() {
@@ -325,11 +337,11 @@ public class ContactHelper extends HelperBase {
 
 	}
 
-	public List<GroupData> getGroupListOfCombobox(String combobox)
+	public SortedListOf<GroupData> getGroupListOfCombobox(String combobox)
 
 	{
 		String choiceCombobox = switchCombobox(combobox);
-		List<GroupData> groups = new ArrayList<GroupData>();
+		SortedListOf<GroupData> groups = new SortedListOf<GroupData>();
 		List<WebElement> options = getListWebElements(By.xpath(choiceCombobox));
 		for (WebElement option : options) {
 			GroupData group = new GroupData();
@@ -340,9 +352,9 @@ public class ContactHelper extends HelperBase {
 		return groups;
 	}
 
-	public List<GroupData> getGroupListOfContact(int index) {
+	public SortedListOf<GroupData> getGroupListOfContact(int index) {
 		click(By.xpath("(//img[@alt='Details'])[" + (index + 1) + "]"));
-		List<GroupData> groups = new ArrayList<GroupData>();
+		SortedListOf<GroupData> groups = new SortedListOf<GroupData>();
 		List<WebElement> groupnames = getListWebElements(By
 				.xpath(".//*[@id='content']/i/a"));
 

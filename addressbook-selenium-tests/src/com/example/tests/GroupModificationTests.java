@@ -1,11 +1,14 @@
 package com.example.tests;
 
 import static com.example.fw.GroupHelper.MODIFICATION;
-import static org.testng.Assert.assertEquals;
 
-import java.util.Collections;
-import java.util.List;
+import static org.junit.Assert.assertThat;
+
+import static org.hamcrest.Matchers.*;
+
 import org.testng.annotations.Test;
+
+import com.example.utils.SortedListOf;
 
 public class GroupModificationTests extends TestBase {
 
@@ -13,7 +16,7 @@ public class GroupModificationTests extends TestBase {
 	public void modifySomeGroup(GroupData group) {
 
 		// save old state
-		List<GroupData> oldList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
 		int index = getRandomIndexOfList(oldList.size());
 		GroupData oldGroup = oldList.get(index);
 
@@ -21,16 +24,15 @@ public class GroupModificationTests extends TestBase {
 		app.getGroupHelper().modifyGroup(group, index);
 
 		// save new state
-		List<GroupData> newList = app.getGroupHelper().getGroups();
-		GroupData newGroup = app.getGroupHelper()
-				.transformGroupToVisibleOnGroupsPage(group, oldGroup,
-						MODIFICATION);
+		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
 
 		// compare states
-		oldList.remove(index);
-		oldList.add(index, newGroup);
-		Collections.sort(oldList);
-		assertEquals(newList, oldList);
+		assertThat(
+				newList,
+				equalTo(oldList.without(index).withAdded(
+						app.getGroupHelper()
+								.transformGroupToVisibleOnGroupsPage(group,
+										oldGroup, MODIFICATION))));
 
 	}
 
