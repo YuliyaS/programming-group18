@@ -21,7 +21,7 @@ public class ContactHelper extends HelperBase {
 
 	private SortedListOf<ContactData> cachedContacts;
 
-	public SortedListOf<ContactData> getContacts() {
+	public SortedListOf<ContactData> getAllContacts() {
 		if (cachedContacts == null) {
 			rebuildCache();
 		}
@@ -39,8 +39,23 @@ public class ContactHelper extends HelperBase {
 			ContactData contact = getContactByIndex(index);
 			cachedContacts.add(contact);
 		}
-		//openContactListOfGroup("[all]");
 		return this;
+
+	}
+
+	public SortedListOf<ContactData> getContactsInGroup(int groupIndex) {
+		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
+		manager.navigateTo().mainPage();
+		openContactListOfAllGroups();
+		openContactListOfGroup(groupIndex+2);
+		List<WebElement> rows = getContactTable();
+		for (WebElement row : rows) {
+			int index = rows.indexOf(row);
+			ContactData contact = getContactByIndex(index);
+			contacts.add(contact);
+		}
+		openContactListOfAllGroups();
+		return contacts;
 
 	}
 
@@ -117,14 +132,12 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public ContactHelper initContactCreation() {
-		manager.navigateTo().mainPage();
 		click(By.linkText("add new"));
 		return this;
 	}
 
 	public ContactHelper initContactModification(int index) {
-		manager.navigateTo().mainPage();
-		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
+			click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
 		return this;
 	}
 
@@ -251,7 +264,6 @@ public class ContactHelper extends HelperBase {
 
 	public ContactHelper submitAddContactsToGroup() {
 		click(By.name("add"));
-		cachedContacts = null;
 		return this;
 
 	}
@@ -287,16 +299,20 @@ public class ContactHelper extends HelperBase {
 		return this;
 	}
 
-	public ContactHelper openContactListOfGroup(String name) {
-		if (!contactListOfGroupAlreadyOpen(name)) {
-			manager.navigateTo().mainPage();
+	private ContactHelper openContactListOfAllGroups() {
+		openContactListOfGroup("[all]");
+		return this;
+	}
+
+	private ContactHelper openContactListOfGroup(String name) {
+		if (!alreadyOpenContactListOfGroup(name)) {
 			selectByText(By.name("group"), name);
 			cachedContacts = null;
 		}
 		return this;
 	}
 
-	private boolean contactListOfGroupAlreadyOpen(String name) {
+	private boolean alreadyOpenContactListOfGroup(String name) {
 		return (name == getWebElement(
 				By.xpath("" + switchCombobox("groupListOnMainPage") + "[" + 1
 						+ "]")).getText());

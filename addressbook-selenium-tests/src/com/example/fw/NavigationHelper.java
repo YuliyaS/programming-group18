@@ -31,4 +31,5 @@ public class NavigationHelper extends HelperBase {
 				By.name("new")).size() > 0);
 
 	}
+
 }

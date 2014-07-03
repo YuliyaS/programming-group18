@@ -25,14 +25,12 @@ public class GroupModificationTests extends TestBase {
 
 		// save new state
 		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
+		GroupData newGroup = app.getGroupHelper()
+				.transformGroupToVisibleOnGroupsPage(group, oldGroup,
+						MODIFICATION);
 
 		// compare states
-		assertThat(
-				newList,
-				equalTo(oldList.without(index).withAdded(
-						app.getGroupHelper()
-								.transformGroupToVisibleOnGroupsPage(group,
-										oldGroup, MODIFICATION))));
+		assertThat(newList, equalTo(oldList.without(index).withAdded(newGroup)));
 
 	}
 

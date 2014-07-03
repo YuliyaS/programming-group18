@@ -98,7 +98,7 @@ public class TestBase {
 		return group;
 	}
 	
-	public String getRandomNonEmptyGroupName() {
+	public int getRandomIndexOfGroupWithNonEmptyGroupName() {
 		List<GroupData> groupList = app.getGroupHelper().getGroups();
 		String groupName;
 		int groupIndex;
@@ -108,7 +108,7 @@ public class TestBase {
 			groupName = groupList.get(groupIndex).getName();
 		} while (groupName.equals(""));
 		
-		return groupName;
+		return groupIndex;
 	}
 
 	public String generateRandomString() {

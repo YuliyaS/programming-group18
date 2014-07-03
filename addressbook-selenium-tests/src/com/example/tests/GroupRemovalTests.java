@@ -15,9 +15,9 @@ public class GroupRemovalTests extends TestBase {
 
 		// save old state
 		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
-		int index = getRandomIndexOfList(oldList.size());
 
 		// actions
+		int index = getRandomIndexOfList(oldList.size());
 		app.getGroupHelper().deleteGroup(index);
 
 		// save new state

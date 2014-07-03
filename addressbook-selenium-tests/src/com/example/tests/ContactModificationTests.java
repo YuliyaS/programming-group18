@@ -15,7 +15,7 @@ public class ContactModificationTests extends TestBase {
 
 		// save old state
 		SortedListOf<ContactData> oldList = app.getContactHelper()
-				.getContacts();
+				.getAllContacts();
 		int index = getRandomIndexOfList(oldList.size());
 		ContactData oldContact = app.getContactHelper()
 				.getContactDataOnEditingForm(index);
@@ -25,7 +25,7 @@ public class ContactModificationTests extends TestBase {
 
 		// save new state
 		SortedListOf<ContactData> newList = app.getContactHelper()
-				.getContacts();
+				.getAllContacts();
 		ContactData newContact = app.getContactHelper()
 				.transformContactToVisibleOnContactsPage(contact, oldContact,
 						MODIFICATION);

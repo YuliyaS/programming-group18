@@ -2,7 +2,6 @@ package com.example.tests;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 import com.example.utils.SortedListOf;
@@ -12,55 +11,54 @@ public class MoveContactsBetweenGroups extends TestBase {
 	@Test
 	public void addContactToSomeGroup() {
 
-		SortedListOf<ContactData> contactList = app.getContactHelper()
-				.getContacts();
-		int contactIndex = getRandomIndexOfList(contactList.size());
-		ContactData movingContact = contactList.get(contactIndex);
-		SortedListOf<GroupData> groupListTo = app.getGroupHelper().getGroups();
-		int groupIndexTo = getRandomIndexOfList(groupListTo.size());
-		GroupData groupTo = groupListTo.get(groupIndexTo);
+		// get test data
+		SortedListOf<ContactData> allContacts = app.getContactHelper()
+				.getAllContacts();
+		SortedListOf<GroupData> groups = app.getGroupHelper().getGroups();
+		int contactIndex = getRandomIndexOfList(allContacts.size());
+		int groupIndex = getRandomIndexOfList(groups.size());
+		ContactData contact = allContacts.get(contactIndex);
+		GroupData group = groups.get(groupIndex);
 
 		// save old state
-		app.getContactHelper().openContactListOfGroup(groupIndexTo + 2);
 		SortedListOf<ContactData> oldList = app.getContactHelper()
-				.getContacts();
-		app.getContactHelper().openContactListOfGroup("[all]");
-		SortedListOf<GroupData> groupListOfContact = app.getContactHelper()
+				.getContactsInGroup(groupIndex);
+		SortedListOf<GroupData> groupsOfContact = app.getContactHelper()
 				.getGroupListOfContact(contactIndex);
-		boolean contactAlreadyInGroup = (groupTo.getName().equals(""))
-				|| (groupListOfContact.contains(groupTo));
+		boolean contactAlreadyInGroup = (group.getName().equals(""))
+				|| (groupsOfContact.contains(group));
 
 		// actions
-		app.getContactHelper().addSomeContactToGroup(contactIndex,
-				groupIndexTo, groupTo.getName());
+		app.getContactHelper().addSomeContactToGroup(contactIndex, groupIndex,
+				group.getName());
 
 		// save new state
 		SortedListOf<ContactData> newList = app.getContactHelper()
-				.getContacts();
-		app.getContactHelper().openContactListOfGroup("[all]");
+				.getContactsInGroup(groupIndex);
 
 		// compare states
 		if (contactAlreadyInGroup) {
-          assertThat(newList, equalTo(oldList));
+			assertThat(newList, equalTo(oldList));
 		} else {
-		assertThat(newList, equalTo(oldList.withAdded(movingContact)));
-	}}
+			assertThat(newList, equalTo(oldList.withAdded(contact)));
+		}
+	}
 
 	@Test
 	public void removeAllContactsFromSomeGroup() {
 
+		// get test data
+		int index = getRandomIndexOfGroupWithNonEmptyGroupName();
+		String name = app.getGroupHelper().getGroups().get(index).getName();
+
 		// actions
-		String name = getRandomNonEmptyGroupName();
 		app.getContactHelper().removeAllContactsFromGroup(name);
 
 		// save new state
 		SortedListOf<ContactData> newList = app.getContactHelper()
-				.getContacts();
-
-		app.getContactHelper().openContactListOfGroup("[all]");
+				.getContactsInGroup(index);
 
 		// compare states
 		assertThat(newList.size(), equalTo(0));
-
 	}
 }

@@ -16,14 +16,14 @@ public class ContactCreationTests extends TestBase {
 
 		// save old state
 		SortedListOf<ContactData> oldList = app.getContactHelper()
-				.getContacts();
+				.getAllContacts();
 
 		// actions
 		app.getContactHelper().createContact(contact);
 
 		// save new state
 		SortedListOf<ContactData> newList = app.getContactHelper()
-				.getContacts();
+				.getAllContacts();
 		ContactData newContact = app.getContactHelper()
 				.transformContactToVisibleOnContactsPage(contact, contact,
 						CREATION);

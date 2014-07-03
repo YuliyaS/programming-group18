@@ -15,7 +15,6 @@ public class GroupCreationTests extends TestBase {
 	@Test(dataProvider = "randomValidGroupGenerator")
 	public void testGroupCreationWithValidData(GroupData group)
 			throws Exception {
-		
 
 		// save old state
 		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
@@ -25,14 +24,12 @@ public class GroupCreationTests extends TestBase {
 
 		// save new state
 		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
+		GroupData newGroup = app.getGroupHelper()
+				.transformGroupToVisibleOnGroupsPage(group, group, CREATION);
 
 		// compare states
-		assertThat(newList, equalTo(oldList.withAdded(app.getGroupHelper().transformGroupToVisibleOnGroupsPage(group, group, CREATION))));
+		assertThat(newList, equalTo(oldList.withAdded(newGroup)));
 
 	}
-
-
-
-
 
 }
