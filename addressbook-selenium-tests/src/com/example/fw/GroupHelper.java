@@ -61,6 +61,7 @@ public class GroupHelper extends HelperBase {
 	}
 
 	public GroupHelper deleteGroup(int index) {
+		manager.navigateTo().groupsPage();
 		selectGroupByIndex(index);
 		submitGroupDeletion();
 		returnToGroupsPage();

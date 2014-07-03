@@ -11,16 +11,13 @@ public class ContactRemovalTests extends TestBase {
 
 	@Test
 	public void deleteSomeContact() {
-		app.navigateTo().mainPage();
 
 		// save old state
 		List<ContactData> oldList = app.getContactHelper().getContacts();
 
 		// actions
 		int index = getRandomIndexOfList(oldList.size());
-		app.getContactHelper().initContactModification(index);
-		app.getContactHelper().submitContactDeletion();
-		app.getContactHelper().returnToHomePage();
+		app.getContactHelper().deleteContact(index);
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
@@ -31,4 +28,5 @@ public class ContactRemovalTests extends TestBase {
 		assertEquals(newList, oldList);
 
 	}
+
 }

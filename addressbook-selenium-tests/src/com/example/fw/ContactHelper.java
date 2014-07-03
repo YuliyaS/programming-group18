@@ -28,17 +28,65 @@ public class ContactHelper extends HelperBase {
 
 	}
 
-	private void rebuildCache() {
+	private ContactHelper rebuildCache() {
 		cachedContacts = new ArrayList<ContactData>();
-		List<WebElement> rows = getListWebElements(By
-				.xpath("(//tr[@name='entry'])"));
+		manager.navigateTo().mainPage();
+		List<WebElement> rows = getContactTable();
 
 		for (WebElement row : rows) {
 			int index = rows.indexOf(row);
 			ContactData contact = getContactByIndex(index);
 			cachedContacts.add(contact);
 		}
+		return this;
 
+	}
+
+	public void createContact(ContactData contact) {
+		manager.navigateTo().mainPage();
+		initContactCreation();
+		fillContactForm(contact, CREATION);
+		submitContactCreation();
+		returnToHomePage();
+	}
+
+	public void modifyContact(int index, ContactData contact) {
+		manager.navigateTo().mainPage();
+		initContactModification(index);
+		fillContactForm(contact, MODIFICATION);
+		submitContactModification();
+		returnToHomePage();
+	}
+
+	public void deleteContact(int index) {
+		manager.navigateTo().mainPage();
+		initContactModification(index);
+		submitContactDeletion();
+		returnToHomePage();
+	}
+
+	public void addSomeContactToGroup(int contactIndex, int groupIndex,
+			String groupName) {
+		manager.navigateTo().mainPage();
+		selectContactByIndex(contactIndex);
+		addContactsToGroup(groupIndex);
+		gotoContactListOfGroupByLink(groupName);
+	}
+
+	public void removeAllContactsFromGroup(String groupName) {
+		manager.navigateTo().mainPage();
+		openContactListOfGroup(groupName);
+		selectAllContactsOnPage();
+		submitContactRemovalFromGroup();
+		gotoContactListOfGroupByLink(groupName);
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------------
+
+	private List<WebElement> getContactTable() {
+		List<WebElement> rows = getListWebElements(By
+				.xpath("(//tr[@name='entry'])"));
+		return rows;
 	}
 
 	public ContactData getContactByIndex(int index) {
@@ -51,20 +99,30 @@ public class ContactHelper extends HelperBase {
 				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
 		String email1 = getWebElement(
 				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
-		return new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).withEmail1(email1);
+		return new ContactData().withId(id).withLastname(lastname)
+				.withFirstname(firstname).withEmail1(email1);
 	}
 
-	public void submitContactCreation() {
+	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
 		cachedContacts = null;
+		return this;
 
 	}
 
-	public void initContactCreation() {
+	public ContactHelper initContactCreation() {
+		manager.navigateTo().mainPage();
 		click(By.linkText("add new"));
+		return this;
 	}
 
-	public void fillContactForm(ContactData contact, boolean formType) {
+	public ContactHelper initContactModification(int index) {
+		manager.navigateTo().mainPage();
+		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
+		return this;
+	}
+
+	public ContactHelper fillContactForm(ContactData contact, boolean formType) {
 		if (contact.getFirstname() != null) {
 			type(By.name("firstname"), contact.getFirstname());
 		}
@@ -116,6 +174,7 @@ public class ContactHelper extends HelperBase {
 		if (contact.getHomePhone2() != null) {
 			type(By.name("phone2"), contact.getHomePhone2());
 		}
+		return this;
 	}
 
 	public ContactData transformContactToVisibleOnContactsPage(
@@ -134,8 +193,7 @@ public class ContactHelper extends HelperBase {
 			if (firstname == null) {
 				firstname = "";
 			}
-			if ((email1 == null)
-					|| (email1.equals(""))) {
+			if ((email1 == null) || (email1.equals(""))) {
 				if (email2 == null) {
 					email2 = "";
 				}
@@ -162,63 +220,72 @@ public class ContactHelper extends HelperBase {
 				email1 = email2;
 			}
 		}
-		return new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).withEmail1(email1);
+		return new ContactData().withId(id).withLastname(lastname)
+				.withFirstname(firstname).withEmail1(email1);
 	}
 
-	public void returnToHomePage() {
+	public ContactHelper returnToHomePage() {
 		click(By.linkText("home page"));
+		return this;
 	}
 
-	public void submitContactDeletion() {
+	public ContactHelper submitContactDeletion() {
 		click(By.xpath("(//input[@name='update'])[2]"));
 		cachedContacts = null;
+		return this;
 
 	}
 
-	public void initContactModification(int index) {
-		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
-	}
-
-	public void submitContactModification() {
+	public ContactHelper submitContactModification() {
 		click(By.name("update"));
 		cachedContacts = null;
+		return this;
 
 	}
 
-	public void addContactsToGroup(int index) {
+	public ContactHelper addContactsToGroup(int index) {
 		click(By.xpath("//select[@name='to_group']/option[" + (index + 1) + "]"));
 		click(By.name("add"));
 		cachedContacts = null;
+		return this;
 
 	}
 
-	public void selectContactByIndex(int index) {
+	public ContactHelper selectContactByIndex(int index) {
+		manager.navigateTo().mainPage();
 		click(By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"));
+		return this;
 	}
 
-	public void selectAllContactsOnPage() {
+	public ContactHelper selectAllContactsOnPage() {
 		click(By.id("MassCB"));
+		return this;
 	}
 
-	public void gotoContactListOfGroupByLink(String groupname) {
+	public ContactHelper gotoContactListOfGroupByLink(String groupname) {
 		click(By.linkText("group page \"" + groupname + "\""));
+		return this;
 
 	}
 
-	public void openContactListOfGroup(int index) {
+	public ContactHelper openContactListOfGroup(int index) {
+		manager.navigateTo().mainPage();
 		click(By.xpath("//select[@name='group']/option[" + (index + 1) + "]"));
 		cachedContacts = null;
+		return this;
 	}
 
-	public void openContactListOfGroup(String name) {
+	public ContactHelper openContactListOfGroup(String name) {
+		manager.navigateTo().mainPage();
 		selectByText(By.name("group"), name);
 		cachedContacts = null;
+		return this;
 	}
 
-	public void removeContactsFromGroup() {
-		selectAllContactsOnPage();
+	public ContactHelper submitContactRemovalFromGroup() {
 		click(By.name("remove"));
 		cachedContacts = null;
+		return this;
 
 	}
 
@@ -307,18 +374,21 @@ public class ContactHelper extends HelperBase {
 		return value;
 	}
 
-	public ContactData getContactDataOnEditingForm() {
-		int id = Integer.parseInt(getWebElement(
-				By.xpath("//input[@name='id']")).getAttribute("value"));
+	public ContactData getContactDataOnEditingForm(int index) {
+		initContactModification(index);
+		int id = Integer
+				.parseInt(getWebElement(By.xpath("//input[@name='id']"))
+						.getAttribute("value"));
 		String lastname = getWebElement(By.xpath("//input[@name='lastname']"))
 				.getAttribute("value");
-		String firstname = getWebElement(
-				By.xpath("//input[@name='firstname']")).getAttribute("value");
+		String firstname = getWebElement(By.xpath("//input[@name='firstname']"))
+				.getAttribute("value");
 		String email1 = getWebElement(By.xpath("//input[@name='email']"))
 				.getAttribute("value");
 		String email2 = getWebElement(By.xpath("//input[@name='email2']"))
 				.getAttribute("value");
-		return new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).withEmail1(email1).withEmail2(email2);
+		return new ContactData().withId(id).withLastname(lastname)
+				.withFirstname(firstname).withEmail1(email1).withEmail2(email2);
 	}
 
 }

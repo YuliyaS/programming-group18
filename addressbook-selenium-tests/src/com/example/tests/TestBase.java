@@ -97,6 +97,19 @@ public class TestBase {
 
 		return group;
 	}
+	
+	public String getRandomNonEmptyGroupName() {
+		List<GroupData> groupList = app.getGroupHelper().getGroups();
+		String groupName;
+		int groupIndex;
+
+		do {
+			groupIndex = getRandomIndexOfList(groupList.size());
+			groupName = groupList.get(groupIndex).getName();
+		} while (groupName.equals(""));
+		
+		return groupName;
+	}
 
 	public String generateRandomString() {
 		Random rnd = new Random();
@@ -172,7 +185,6 @@ public class TestBase {
 	}
 
 	public String RandomDOB() {
-		// Random rnd = new Random();
 		int yyyy = random(1900, 2013);
 		int mm = random(1, 12);
 		int dd = 0;

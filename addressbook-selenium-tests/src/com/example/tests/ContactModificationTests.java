@@ -12,19 +12,15 @@ public class ContactModificationTests extends TestBase {
 
 	@Test(dataProvider = "randomValidContactGenerator")
 	public void modifySomeContact(ContactData contact) throws Exception {
-		app.navigateTo().mainPage();
 
 		// save old state
 		List<ContactData> oldList = app.getContactHelper().getContacts();
 		int index = getRandomIndexOfList(oldList.size());
-		app.getContactHelper().initContactModification(index);
 		ContactData oldContact = app.getContactHelper()
-				.getContactDataOnEditingForm();
+				.getContactDataOnEditingForm(index);
 
 		// actions
-		app.getContactHelper().fillContactForm(contact, MODIFICATION);
-		app.getContactHelper().submitContactModification();
-		app.getContactHelper().returnToHomePage();
+		app.getContactHelper().modifyContact(index, contact);
 
 		// save new state
 		List<ContactData> newList = app.getContactHelper().getContacts();
