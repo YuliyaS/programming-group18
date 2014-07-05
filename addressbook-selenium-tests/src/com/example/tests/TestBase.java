@@ -13,6 +13,8 @@ import com.example.fw.ApplicationManager;
 
 import java.util.Calendar;
 
+import static com.example.tests.GroupDataGenerator.generateRandomGroups;
+
 public class TestBase {
 
 	protected static ApplicationManager app;
@@ -31,14 +33,15 @@ public class TestBase {
 
 	@DataProvider
 	public Iterator<Object[]> randomValidGroupGenerator() {
+		return wrapGroupsForDataProvider(generateRandomGroups(5)).iterator();
+	}
+
+	private List<Object[]> wrapGroupsForDataProvider(List<GroupData> groups) {
 		List<Object[]> list = new ArrayList<Object[]>();
-		for (int i = 0; i < 5; i++) {
-			GroupData group = new GroupData().withName(generateRandomString())
-					.withHeader(generateRandomString())
-					.withFooter(generateRandomString());
+		for (GroupData group : groups) {
 			list.add(new Object[] { group });
 		}
-		return list.iterator();
+		return list;
 	}
 
 	@DataProvider
@@ -97,7 +100,7 @@ public class TestBase {
 
 		return group;
 	}
-	
+
 	public int getRandomIndexOfGroupWithNonEmptyGroupName() {
 		List<GroupData> groupList = app.getGroupHelper().getGroups();
 		String groupName;
@@ -107,34 +110,34 @@ public class TestBase {
 			groupIndex = getRandomIndexOfList(groupList.size());
 			groupName = groupList.get(groupIndex).getName();
 		} while (groupName.equals(""));
-		
+
 		return groupIndex;
 	}
 
-	public String generateRandomString() {
-		Random rnd = new Random();
-		String randomString = null;
-		if (rnd.nextInt(3) == 0) {
-		} else {
-			if (rnd.nextInt(3) == 0) {
-				randomString = "";
-			} else {
+	//public String generateRandomString() {
+	//	Random rnd = new Random();
+	//	String randomString = null;
+	//	if (rnd.nextInt(3) == 0) {
+	//	} else {
+	//		if (rnd.nextInt(3) == 0) {
+	//			randomString = "";
+	//		} else {
 
-				randomString = generateRandomSimbol() + "test" + rnd.nextInt();
-			}
+		//		randomString = generateRandomSimbol() + "test" + rnd.nextInt();
+		//	}
 
-		}
+		//}
 
-		return randomString;
-	}
+		//return randomString;
+//	}
 
-	public char generateRandomSimbol() {
-		Random rnd = new Random();
-		String str = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-		int index = rnd.nextInt(61);
-		char randomSimbol = str.charAt(index);
-		return randomSimbol;
-	}
+//	public char generateRandomSimbol() {
+//		Random rnd = new Random();
+//		String str = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+//		int index = rnd.nextInt(61);
+	//	char randomSimbol = str.charAt(index);
+//		return randomSimbol;
+//	}
 
 	public String randomBday(String DOB) {
 		Random rnd = new Random();
