@@ -1,6 +1,8 @@
 package com.example.tests;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,18 +54,59 @@ public class ContactDataGenerator extends RandomDataGenerator {
 	private static void saveContactsToCsvFile(List<ContactData> contacts,
 			File file) throws IOException {
 		FileWriter writer = new FileWriter(file);
-		for (ContactData contact: contacts) {
-			writer.write(contact.getFirstname() + "," + contact.getLastname() + ","
-					+ contact.getAddress1() + contact.getHomePhone1() + "," 
-					+ contact.getMobilePhone() + "," + contact.getWorkPhone() + "," 
-					+ contact.getEmail1() + "," + contact.getEmail2() + "," 
-					+ contact.getAddress2() + "," + contact.getHomePhone2() + "," 
-					+ contact.getBday() + "," + contact.getBmonth() + "," 
-					+ contact.getByear() + "," + contact.getGroup() + ",!" + "\n");
+		for (ContactData contact : contacts) {
+			writer.write(contact.getFirstname() + "," + contact.getLastname()
+					+ "," + contact.getAddress1() + "," + contact.getHomePhone1()
+					+ "," + contact.getMobilePhone() + ","
+					+ contact.getWorkPhone() + "," + contact.getEmail1() + ","
+					+ contact.getEmail2() + "," + contact.getAddress2() + ","
+					+ contact.getHomePhone2() + "," + contact.getBday() + ","
+					+ contact.getBmonth() + "," + contact.getByear() + ","
+					+ contact.getGroup() + ",!" + "\n");
 		}
 		writer.close();
 	}
 
+	public static List<ContactData> loadContactsFromCsvFile(File file)
+			throws IOException {
+		List<ContactData> list = new ArrayList<ContactData>();
+		FileReader reader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(reader);
+		String line = bufferedReader.readLine();
+		while (line != null) {
+			String[] part = line.split(",");
+			for (int i = 0; i < part.length; i++) {
+				if (part[i].equals("null")) {
+					part[i] = null;
+				}
+			}
+			ContactData contact = new ContactData()
+			        .withFirstname(part[0])
+					.withLastname(part[1])
+					.withAddress1(part[2])
+					.withHomePhone1(part[3])
+					.withMobilePhone(part[4])
+					.withWorkPhone(part[5])
+					.withEmail1(part[6])
+					.withEmail2(part[7])
+					.withAddress2(part[8])
+					.withHomePhone2(part[9])
+					.withBday(part[10])
+					.withBmonth(part[11])
+					.withByear(part[12])
+					.withGroup(part[13]);
+			list.add(contact);
+			line = bufferedReader.readLine();
+		}
+		bufferedReader.close();
+		return list;
+	}
+
+	public static List<ContactData> loadContactsFromXmlFile(File file) {
+		XStream xstream = new XStream();
+		xstream.alias("contact", ContactData.class);
+		return (List<ContactData>) xstream.fromXML(file);
+	}
 
 	public static List<ContactData> generateRandomContacts(int amount) {
 		List<ContactData> list = new ArrayList<ContactData>();
@@ -88,6 +131,5 @@ public class ContactDataGenerator extends RandomDataGenerator {
 		}
 		return list;
 	}
-	
-	
+
 }

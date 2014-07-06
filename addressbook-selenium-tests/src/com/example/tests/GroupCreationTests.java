@@ -4,7 +4,7 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static com.example.fw.GroupHelper.CREATION;
 import static com.example.tests.GroupDataGenerator.loadGroupsFromCsvFile;
-import static com.example.tests.GroupDataGenerator.loadGroupsFromXMLFile;
+import static com.example.tests.GroupDataGenerator.loadGroupsFromXmlFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class GroupCreationTests extends TestBase {
 	
 	@DataProvider
 	public Iterator<Object[]> groupsFromFile() throws IOException {
-		return wrapGroupsForDataProvider(loadGroupsFromXMLFile(new File("groups.xml"))).iterator();
+		return wrapGroupsForDataProvider(loadGroupsFromXmlFile(new File("groups.xml"))).iterator();
 	}
 
 

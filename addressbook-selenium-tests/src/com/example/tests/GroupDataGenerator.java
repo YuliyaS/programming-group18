@@ -68,6 +68,11 @@ public class GroupDataGenerator extends RandomDataGenerator {
 		String line = bufferedReader.readLine();
 		while (line != null) {
 			String[] part = line.split(",");
+			for (int i = 0; i < part.length; i++) {
+				if (part[i].equals("null")) {
+					part[i] = null;
+				}
+			}
 			GroupData group = new GroupData().withName(part[0])
 					.withHeader(part[1]).withFooter(part[2]);
 			list.add(group);
@@ -77,7 +82,7 @@ public class GroupDataGenerator extends RandomDataGenerator {
 		return list;
 	}
 
-	public static List<GroupData> loadGroupsFromXMLFile(File file) {
+	public static List<GroupData> loadGroupsFromXmlFile(File file) {
 	XStream xstream = new XStream();
 	xstream.alias("group", GroupData.class);
 	return (List<GroupData>) xstream.fromXML(file);
