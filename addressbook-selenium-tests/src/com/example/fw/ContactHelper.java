@@ -40,14 +40,14 @@ public class ContactHelper extends HelperBase {
 			cachedContacts.add(contact);
 		}
 		return this;
-
+		//
 	}
 
 	public SortedListOf<ContactData> getContactsInGroup(int groupIndex) {
 		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
 		manager.navigateTo().mainPage();
 		openContactListOfAllGroups();
-		openContactListOfGroup(groupIndex+2);
+		openContactListOfGroup(groupIndex + 2);
 		List<WebElement> rows = getContactTable();
 		for (WebElement row : rows) {
 			int index = rows.indexOf(row);
@@ -137,7 +137,7 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public ContactHelper initContactModification(int index) {
-			click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
+		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
 		return this;
 	}
 
