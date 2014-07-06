@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 import com.example.utils.SortedListOf;
 
+import static com.example.tests.RandomDataGenerator.getRandomIndexOfList;
+
 public class GroupRemovalTests extends TestBase {
 
 	@Test

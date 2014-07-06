@@ -3,8 +3,8 @@ package com.example.tests;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static com.example.fw.ContactHelper.MODIFICATION;
-
 import org.testng.annotations.Test;
+import static com.example.tests.RandomDataGenerator.getRandomIndexOfList;
 
 import com.example.utils.SortedListOf;
 

@@ -6,6 +6,10 @@ import org.testng.annotations.Test;
 
 import com.example.utils.SortedListOf;
 
+import static com.example.tests.RandomDataGenerator.getRandomIndexOfList;
+
+import static com.example.tests.RandomDataGenerator.getRandomIndexOfGroupWithNonEmptyGroupName;
+
 public class MoveContactsBetweenGroups extends TestBase {
 
 	@Test

@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 
 import com.example.utils.SortedListOf;
 
+import static com.example.tests.RandomDataGenerator.getRandomIndexOfList;
+
 public class GroupModificationTests extends TestBase {
 
 	@Test(dataProvider = "randomValidGroupGenerator")

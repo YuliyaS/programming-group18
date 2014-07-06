@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 
 import com.example.utils.SortedListOf;
 
+import static com.example.tests.RandomDataGenerator.getRandomIndexOfList;
+
 public class ContactRemovalTests extends TestBase {
 
 	@Test

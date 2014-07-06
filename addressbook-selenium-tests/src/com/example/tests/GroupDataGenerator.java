@@ -5,11 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.thoughtworks.xstream.XStream;
 
-public class GroupDataGenerator {
+public class GroupDataGenerator extends RandomDataGenerator {
 
 	public static void main(String[] args) throws IOException {
 		if (args.length < 3) {
@@ -68,29 +67,5 @@ public class GroupDataGenerator {
 		}
 		return list;
 	}
-
-	public static String generateRandomString() {
-		Random rnd = new Random();
-		String randomString = null;
-		if (rnd.nextInt(3) == 0) {
-		} else {
-			if (rnd.nextInt(3) == 0) {
-				randomString = "";
-			} else {
-
-				randomString = generateRandomSimbol() + "test" + rnd.nextInt();
-			}
-
-		}
-
-		return randomString;
-	}
-
-	public static char generateRandomSimbol() {
-		Random rnd = new Random();
-		String str = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-		int index = rnd.nextInt(61);
-		char randomSimbol = str.charAt(index);
-		return randomSimbol;
-	}
+	
 }
