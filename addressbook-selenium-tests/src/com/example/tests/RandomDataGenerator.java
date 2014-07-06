@@ -1,14 +1,36 @@
 package com.example.tests;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import com.example.fw.ApplicationManager;
+
 public class RandomDataGenerator extends TestBase {
 
-	public static List<GroupData> getCurrentGroupListFromGroupPage() {
-		List<GroupData> list = app.getGroupHelper().getGroups();
-		return list;
+	public static int getRandomIndexOfList(int listsize) {
+		Random rnd = new Random();
+		int index;
+		if (rnd.nextInt(3) == 0) {
+			index = 0;
+		} else {
+			index = rnd.nextInt(listsize - 1);
+		}
+		return index;
+	}
+
+	public static int getRandomIndexOfGroupWithNonEmptyGroupName() {
+		List<GroupData> groupList = app.getGroupHelper().getGroups();
+		String groupName;
+		int groupIndex;
+
+		do {
+			groupIndex = getRandomIndexOfList(groupList.size());
+			groupName = groupList.get(groupIndex).getName();
+		} while (groupName.equals(""));
+
+		return groupIndex;
 	}
 
 	public static String generateRandomString() {
@@ -76,7 +98,7 @@ public class RandomDataGenerator extends TestBase {
 		return byear;
 	}
 
-	public static GroupData getRandomGroup() {
+	public static String getRandomGroupName() {
 		GroupData group = new GroupData();
 		Random rnd = new Random();
 		if (rnd.nextInt(3) == 0) {
@@ -85,14 +107,13 @@ public class RandomDataGenerator extends TestBase {
 			if (rnd.nextInt(3) == 0) {
 				group.withName("[none]");
 			} else {
-				List<GroupData> list = getCurrentGroupListFromGroupPage();
-				int index = getRandomIndexOfList(list.size());
-				group = list.get(index);
-				return group;
+				List<GroupData> groups = getTestGroupList();
+				int index = getRandomIndexOfList(groups.size());
+				group = groups.get(index);
 			}
 		}
 
-		return group;
+		return group.getName();
 	}
 
 	private static char generateRandomSimbol() {
@@ -174,28 +195,24 @@ public class RandomDataGenerator extends TestBase {
 		return false;
 	}
 
-	public static int getRandomIndexOfList(int listsize) {
-		Random rnd = new Random();
-		int index;
-		if (rnd.nextInt(3) == 0) {
-			index = 0;
+	private static List<GroupData> getTestGroupList() {
+		List<GroupData> groups = new ArrayList<GroupData>();
+		if (app == null) {
+			groups = runAppAndGetGroups();
 		} else {
-			index = rnd.nextInt(listsize - 1);
+			groups = app.getGroupHelper().getGroups();
 		}
-		return index;
+		return groups;
+
 	}
 
-	public static int getRandomIndexOfGroupWithNonEmptyGroupName() {
-		List<GroupData> groupList = getCurrentGroupListFromGroupPage();
-		String groupName;
-		int groupIndex;
+	private static List<GroupData> runAppAndGetGroups() {
+		List<GroupData> groups = new ArrayList<GroupData>();
+		app = new ApplicationManager();
+		groups = app.getGroupHelper().getGroups();
+		app.stop();
+		return groups;
 
-		do {
-			groupIndex = getRandomIndexOfList(groupList.size());
-			groupName = groupList.get(groupIndex).getName();
-		} while (groupName.equals(""));
-
-		return groupIndex;
 	}
 
 }

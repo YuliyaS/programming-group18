@@ -82,8 +82,8 @@ public class ContactDataGenerator extends RandomDataGenerator {
 					.withHomePhone2(generateRandomString())
 					.withBday(randomBday(DOB))
 					.withBmonth(randomBmonth(DOB))
-					.withByear(randomByear(DOB));
-					//.withGroup(getRandomGroup().getName());
+					.withByear(randomByear(DOB))
+					.withGroup(getRandomGroupName());
 			list.add(contact);
 		}
 		return list;
