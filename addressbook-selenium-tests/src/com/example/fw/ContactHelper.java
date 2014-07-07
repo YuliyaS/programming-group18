@@ -30,17 +30,9 @@ public class ContactHelper extends HelperBase {
 	}
 
 	private ContactHelper rebuildCache() {
-		cachedContacts = new SortedListOf<ContactData>();
 		manager.navigateTo().mainPage();
-		List<WebElement> rows = getContactTable();
-
-		for (WebElement row : rows) {
-			int index = rows.indexOf(row);
-			ContactData contact = getContactByIndex(index);
-			cachedContacts.add(contact);
-		}
+		cachedContacts = getContactsFromContactTable();
 		return this;
-		//
 	}
 
 	public SortedListOf<ContactData> getContactsInGroup(int groupIndex) {
@@ -48,15 +40,9 @@ public class ContactHelper extends HelperBase {
 		manager.navigateTo().mainPage();
 		openContactListOfAllGroups();
 		openContactListOfGroup(groupIndex + 2);
-		List<WebElement> rows = getContactTable();
-		for (WebElement row : rows) {
-			int index = rows.indexOf(row);
-			ContactData contact = getContactByIndex(index);
-			contacts.add(contact);
-		}
+		contacts = getContactsFromContactTable();
 		openContactListOfAllGroups();
 		return contacts;
-
 	}
 
 	public void createContact(ContactData contact) {
@@ -104,31 +90,29 @@ public class ContactHelper extends HelperBase {
 
 	// -----------------------------------------------------------------------------------------------------------------------
 
-	private List<WebElement> getContactTable() {
+	private SortedListOf<ContactData> getContactsFromContactTable() {
+		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
 		List<WebElement> rows = getListWebElements(By
 				.xpath("(//tr[@name='entry'])"));
-		return rows;
-	}
-
-	public ContactData getContactByIndex(int index) {
-		int id = Integer.parseInt(getWebElement(
-				By.xpath("(//input[@name='selected[]'])[" + (index + 1) + "]"))
-				.getAttribute("value"));
-		String lastname = getWebElement(
-				By.xpath("(//td[2])[" + (index + 1) + "]")).getText();
-		String firstname = getWebElement(
-				By.xpath("(//td[3])[" + (index + 1) + "]")).getText();
-		String email1 = getWebElement(
-				By.xpath("(//td[4])[" + (index + 1) + "]/a")).getText();
-		return new ContactData().withId(id).withLastname(lastname)
-				.withFirstname(firstname).withEmail1(email1);
+		for (WebElement row : rows) {
+			ContactData contact = new ContactData()
+					.withId(Integer.parseInt(row.findElement(
+							By.xpath(".//input[@name='selected[]']"))
+							.getAttribute("value")))
+					.withLastname(
+							row.findElement(By.xpath(".//td[2]")).getText())
+					.withFirstname(
+							row.findElement(By.xpath(".//td[3]")).getText())
+					.withEmail1(row.findElement(By.xpath(".//td[4]")).getText());
+			contacts.add(contact);
+		}
+		return contacts;
 	}
 
 	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
 		cachedContacts = null;
 		return this;
-
 	}
 
 	public ContactHelper initContactCreation() {
