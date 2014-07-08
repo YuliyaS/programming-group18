@@ -1,5 +1,6 @@
 package com.example.tests;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -9,6 +10,7 @@ import com.example.fw.ApplicationManager;
 
 public class RandomDataGenerator extends TestBase {
 
+	
 	public static int getRandomIndexOfList(int listsize) {
 		Random rnd = new Random();
 		int index;
@@ -98,7 +100,7 @@ public class RandomDataGenerator extends TestBase {
 		return byear;
 	}
 
-	public static String getRandomGroupName() {
+	public static String getRandomGroupName() throws IOException {
 		GroupData group = new GroupData();
 		Random rnd = new Random();
 		if (rnd.nextInt(3) == 0) {
@@ -195,7 +197,7 @@ public class RandomDataGenerator extends TestBase {
 		return false;
 	}
 
-	private static List<GroupData> getTestGroupList() {
+	private static List<GroupData> getTestGroupList() throws IOException {
 		List<GroupData> groups = new ArrayList<GroupData>();
 		if (app == null) {
 			groups = runAppAndGetGroups();
@@ -203,16 +205,14 @@ public class RandomDataGenerator extends TestBase {
 			groups = app.getGroupHelper().getGroups();
 		}
 		return groups;
-
 	}
 
-	private static List<GroupData> runAppAndGetGroups() {
+	private static List<GroupData> runAppAndGetGroups() throws IOException {
 		List<GroupData> groups = new ArrayList<GroupData>();
-		app = new ApplicationManager();
+		app = new ApplicationManager(getProperties());
 		groups = app.getGroupHelper().getGroups();
 		app.stop();
 		return groups;
-
 	}
 
 }

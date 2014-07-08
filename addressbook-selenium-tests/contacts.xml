@@ -1,38 +1,41 @@
 <list>
   <contact>
     <id>0</id>
-    <firstname>Btest-1302973691</firstname>
-    <mobilePhone>Xtest952286739</mobilePhone>
-    <bday>-</bday>
-    <bmonth>November</bmonth>
-    <group>Ttest-63284591</group>
-    <homePhone2>4test519657129</homePhone2>
-  </contact>
-  <contact>
-    <id>0</id>
-    <address1></address1>
-    <mobilePhone>Gtest-380876621</mobilePhone>
-    <email1>Rtest-1660569457</email1>
-    <email2></email2>
-    <bday>-</bday>
+    <lastname></lastname>
+    <address1>Ztest-1944522536</address1>
+    <homePhone1>Etest-808613546</homePhone1>
+    <mobilePhone>vtest-1128827953</mobilePhone>
+    <email1>3test1792220528</email1>
+    <email2>7test1478488898</email2>
+    <bday>11</bday>
     <bmonth>-</bmonth>
-    <byear>1959</byear>
-    <group></group>
-    <homePhone2>Wtest-401534368</homePhone2>
+    <byear>1905</byear>
+    <group>ntest-1677633895</group>
+    <address2></address2>
+    <homePhone2>Rtest-1633641005</homePhone2>
   </contact>
   <contact>
     <id>0</id>
-    <firstname>wtest908829127</firstname>
-    <lastname>stest1236827923</lastname>
+    <firstname>8test-184841816</firstname>
     <address1></address1>
-    <mobilePhone>Wtest978646632</mobilePhone>
+    <homePhone1></homePhone1>
+    <mobilePhone></mobilePhone>
+    <email1>8test1291662144</email1>
+    <email2>htest-609927445</email2>
+    <bday>20</bday>
+    <bmonth>-</bmonth>
+    <byear>1943</byear>
+    <group></group>
+    <address2>Ytest-1034435528</address2>
+    <homePhone2>Itest444791046</homePhone2>
+  </contact>
+  <contact>
+    <id>0</id>
+    <address1>9test-453815858</address1>
     <email1></email1>
-    <email2>Gtest1167152947</email2>
-    <bday>24</bday>
-    <bmonth>-</bmonth>
-    <byear>1936</byear>
-    <group></group>
-    <address2>Vtest725560544</address2>
-    <homePhone2>Otest170757472</homePhone2>
+    <email2>ftest1024639206</email2>
+    <bmonth>February</bmonth>
+    <group>jtest810788878</group>
+    <homePhone2>itest-880473267</homePhone2>
   </contact>
 </list>

@@ -108,7 +108,7 @@ public class ContactDataGenerator extends RandomDataGenerator {
 		return (List<ContactData>) xstream.fromXML(file);
 	}
 
-	public static List<ContactData> generateRandomContacts(int amount) {
+	public static List<ContactData> generateRandomContacts(int amount) throws IOException {
 		List<ContactData> list = new ArrayList<ContactData>();
 		for (int i = 0; i < amount; i++) {
 			String DOB = RandomDOB();

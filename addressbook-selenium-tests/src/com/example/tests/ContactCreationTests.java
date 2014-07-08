@@ -3,6 +3,7 @@ package com.example.tests;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -16,10 +17,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 public class ContactCreationTests extends TestBase {
-	
+
 	@DataProvider
 	public Iterator<Object[]> contactsFromFile() throws IOException {
-		return wrapContactsForDataProvider(loadContactsFromCsvFile(new File("contacts.txt"))).iterator();
+		String fileName = getProperties().getProperty("contactsDataFile");
+		return wrapContactsForDataProvider(
+				loadContactsFromCsvFile(new File(fileName))).iterator();
 	}
 
 	@Test(dataProvider = "contactsFromFile")

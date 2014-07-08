@@ -92,8 +92,7 @@ public class ContactHelper extends HelperBase {
 
 	private SortedListOf<ContactData> getContactsFromContactTable() {
 		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
-		List<WebElement> rows = getListWebElements(By
-				.xpath("(//tr[@name='entry'])"));
+		List<WebElement> rows = getContactRows();
 		for (WebElement row : rows) {
 			ContactData contact = new ContactData()
 					.withId(Integer.parseInt(row.findElement(
@@ -107,6 +106,11 @@ public class ContactHelper extends HelperBase {
 			contacts.add(contact);
 		}
 		return contacts;
+	}
+
+	private List<WebElement> getContactRows() {
+		List<WebElement> rows = getListWebElements(By.xpath("//tr[@name='entry']"));	
+		return rows;
 	}
 
 	public ContactHelper submitContactCreation() {
