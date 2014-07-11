@@ -11,6 +11,7 @@ public class ApplicationManager {
 
 	public WebDriver driver;
 	public String baseUrl;
+	public String implicitlyWait;
 
 	private GroupHelper groupHelper;
 	private NavigationHelper navigationHelper;
@@ -28,7 +29,8 @@ public class ApplicationManager {
 			throw new Error("Unsupported browser: " + browser);
 		}
 		baseUrl = properties.getProperty("baseUrl");
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		implicitlyWait = properties.getProperty("implicitlyWait");
+		driver.manage().timeouts().implicitlyWait(Integer.parseInt(implicitlyWait), TimeUnit.SECONDS);
 		driver.get(baseUrl);
 	}
 
