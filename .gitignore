@@ -13,3 +13,6 @@ hs_err_pid*
 
 addressbook-selenium-tests/test-output/*
 addressbook-selenium-tests/.settings/*
+addressbook-native-tests/test-output/*
+addressbook-native-tests/.settings/*
+.metadata
