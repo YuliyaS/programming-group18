@@ -1,5 +1,6 @@
 package com.example.fw;
 
+import java.io.IOException;
 import java.util.Properties;
 
 public class ApplicationManager {
@@ -10,14 +11,26 @@ public class ApplicationManager {
 
 	private ContactHelper contactHelper;
 
-	public static ApplicationManager getInstance() {
+	private ProcessHelper processHelper;
+
+	private AutoItHelper autoItHelper;
+
+	public static ApplicationManager getInstance(Properties props)
+			throws IOException {
 		if (singleton == null) {
 			singleton = new ApplicationManager();
+			singleton.setProperties(props);
+			singleton.start();
 		}
 		return singleton;
 	}
 
+	public void start() throws IOException {
+		getProcessHelper().startAppUnderTest();
+	}
+
 	public void stop() {
+		getProcessHelper().stopAppUnderTest();
 	}
 
 	public void setProperties(Properties props) {
@@ -37,6 +50,20 @@ public class ApplicationManager {
 			contactHelper = new ContactHelper(this);
 		}
 		return contactHelper;
+	}
+
+	public ProcessHelper getProcessHelper() {
+		if (processHelper == null) {
+			processHelper = new ProcessHelper(this);
+		}
+		return processHelper;
+	}
+
+	public AutoItHelper getAutoItHelper() {
+		if (autoItHelper == null) {
+			autoItHelper = new AutoItHelper(this);
+		}
+		return autoItHelper;
 	}
 
 }
