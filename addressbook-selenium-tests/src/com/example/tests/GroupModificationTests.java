@@ -18,7 +18,7 @@ public class GroupModificationTests extends TestBase {
 	public void modifySomeGroup(GroupData group) {
 
 		// save old state
-		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> oldList = app.getModel().getGroups();
 		int index = getRandomIndexOfList(oldList.size());
 		GroupData oldGroup = oldList.get(index);
 
@@ -26,7 +26,7 @@ public class GroupModificationTests extends TestBase {
 		app.getGroupHelper().modifyGroup(group, index);
 
 		// save new state
-		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> newList = app.getModel().getGroups();
 		GroupData newGroup = app.getGroupHelper()
 				.transformGroupToVisibleOnGroupsPage(group, oldGroup,
 						MODIFICATION);

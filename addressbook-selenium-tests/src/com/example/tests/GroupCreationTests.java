@@ -16,31 +16,37 @@ import org.testng.annotations.Test;
 import com.example.utils.SortedListOf;
 
 public class GroupCreationTests extends TestBase {
-	
+
 	@DataProvider
 	public Iterator<Object[]> groupsFromFile() throws IOException {
 		String fileName = getProperties().getProperty("groupsDataFile");
-		return wrapGroupsForDataProvider(loadGroupsFromXmlFile(new File(fileName))).iterator();
+		return wrapGroupsForDataProvider(
+				loadGroupsFromXmlFile(new File(fileName))).iterator();
 	}
-
 
 	@Test(dataProvider = "groupsFromFile")
 	public void testGroupCreationWithValidData(GroupData group)
 			throws Exception {
 
 		// save old state
-		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> oldList = new SortedListOf<GroupData>();
+		oldList = app
+				.getModel().getGroups();
 
 		// actions
 		app.getGroupHelper().createGroup(group);
 
 		// save new state
-		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> newList = new SortedListOf<GroupData>();
+         newList = app.getModel().getGroups();
 		GroupData newGroup = app.getGroupHelper()
-				.transformGroupToVisibleOnGroupsPage(group, group, CREATION);
+			.transformGroupToVisibleOnGroupsPage(group, group, CREATION);
 
 		// compare states
 		assertThat(newList, equalTo(oldList.withAdded(newGroup)));
+		//assertThat(newList, equalTo(oldList));
+		
+		//assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper().listGroups()));
 
 	}
 
