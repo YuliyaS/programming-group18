@@ -75,8 +75,8 @@ public class ApplicationManager {
 				throw new Error("Unsupported browser: " + browser);
 			}
 			baseUrl = properties.getProperty("baseUrl");
-			//implicitlyWait = properties.getProperty("implicitlyWait");
-			//driver.manage().timeouts().implicitlyWait(Integer.parseInt(implicitlyWait), TimeUnit.SECONDS);
+			implicitlyWait = properties.getProperty("implicitlyWait");
+			driver.manage().timeouts().implicitlyWait(Integer.parseInt(implicitlyWait), TimeUnit.SECONDS);
 			driver.get(baseUrl);
 		}
 		return driver;

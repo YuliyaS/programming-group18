@@ -18,7 +18,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 		// get test data
 		SortedListOf<ContactData> allContacts = app.getContactHelper()
 				.getAllContacts();
-		SortedListOf<GroupData> groups = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> groups = app.getModel().getGroups();
 		int contactIndex = getRandomIndexOfList(allContacts.size());
 		int groupIndex = getRandomIndexOfList(groups.size());
 		ContactData contact = allContacts.get(contactIndex);
@@ -53,7 +53,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 
 		// get test data
 		int index = getRandomIndexOfGroupWithNonEmptyGroupName();
-		String name = app.getGroupHelper().getGroups().get(index).getName();
+		String name = app.getModel().getGroups().get(index).getName();
 
 		// actions
 		app.getContactHelper().removeAllContactsFromGroup(name);

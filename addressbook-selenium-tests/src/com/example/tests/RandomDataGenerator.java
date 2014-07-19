@@ -23,7 +23,7 @@ public class RandomDataGenerator extends TestBase {
 	}
 
 	public static int getRandomIndexOfGroupWithNonEmptyGroupName() {
-		List<GroupData> groupList = app.getGroupHelper().getGroups();
+		List<GroupData> groupList = app.getModel().getGroups();
 		String groupName;
 		int groupIndex;
 
@@ -202,7 +202,7 @@ public class RandomDataGenerator extends TestBase {
 		if (app == null) {
 			groups = runAppAndGetGroups();
 		} else {
-			groups = app.getGroupHelper().getGroups();
+			groups = app.getModel().getGroups();
 		}
 		return groups;
 	}
@@ -210,8 +210,7 @@ public class RandomDataGenerator extends TestBase {
 	private static List<GroupData> runAppAndGetGroups() throws IOException {
 		List<GroupData> groups = new ArrayList<GroupData>();
 		app = new ApplicationManager(getProperties());
-		groups = app.getGroupHelper().getGroups();
-		app.stop();
+		groups = app.getModel().getGroups();
 		return groups;
 	}
 
