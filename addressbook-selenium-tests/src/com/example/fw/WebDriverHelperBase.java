@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.Select;
 
 public abstract class WebDriverHelperBase extends HelperBase {
 
-
 	protected WebDriver driver;
 	public boolean acceptNextAlert = true;
 
@@ -79,7 +78,7 @@ public abstract class WebDriverHelperBase extends HelperBase {
 	protected List<WebElement> getListWebElements(By locator) {
 		return driver.findElements(locator);
 	}
-	
+
 	protected String getCurrentUrl() {
 		return driver.getCurrentUrl();
 	}

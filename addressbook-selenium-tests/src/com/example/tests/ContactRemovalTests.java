@@ -15,17 +15,20 @@ public class ContactRemovalTests extends TestBase {
 	public void deleteSomeContact() {
 
 		// save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper().getAllContacts();
-		
+		SortedListOf<ContactData> oldList = app.getModel().getContacts();
+
 		// actions
 		int index = getRandomIndexOfList(oldList.size());
 		app.getContactHelper().deleteContact(index);
 
 		// save new state
-		SortedListOf<ContactData> newList = app.getContactHelper().getAllContacts();
+		SortedListOf<ContactData> newList = app.getModel().getContacts();
 
 		// compare states
 		assertThat(newList, equalTo(oldList.without(index)));
+		assertThat(app.getModel().getContacts(), equalTo(app
+				.getHibernateHelper().listContacts()));
+
 	}
 
 }

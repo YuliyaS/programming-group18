@@ -1,5 +1,7 @@
 package com.example.fw;
 
+import static com.example.fw.ContactHelper.CREATION;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,21 +21,21 @@ public class ContactHelper extends WebDriverHelperBase {
 		super(manager);
 	}
 
-	private SortedListOf<ContactData> cachedContacts;
+	// private SortedListOf<ContactData> cachedContacts;
 
-	public SortedListOf<ContactData> getAllContacts() {
-		if (cachedContacts == null) {
-			rebuildCache();
-		}
-		return cachedContacts;
-
-	}
-
-	private ContactHelper rebuildCache() {
-		manager.navigateTo().mainPage();
-		cachedContacts = getContactsFromContactTable();
-		return this;
-	}
+	// public SortedListOf<ContactData> getAllContacts() {
+	// if (cachedContacts == null) {
+	// rebuildCache();
+	// }
+	// return cachedContacts;
+	//
+	// }
+	//
+	// private ContactHelper rebuildCache() {
+	// manager.navigateTo().mainPage();
+	// cachedContacts = getContactsFromContactTable();
+	// return this;
+	// }
 
 	public SortedListOf<ContactData> getContactsInGroup(int groupIndex) {
 		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
@@ -51,16 +53,25 @@ public class ContactHelper extends WebDriverHelperBase {
 		fillContactForm(contact, CREATION);
 		submitContactCreation();
 		returnToHomePage();
-		rebuildCache();
+		manager.getModel().addContact(
+				transformContactToVisibleOnContactsPage(contact, contact,
+						CREATION));
+		// rebuildCache();
 	}
 
-	public void modifyContact(int index, ContactData contact) {
+	public void modifyContact(int index, ContactData contact,
+			ContactData oldContact) {
 		manager.navigateTo().mainPage();
 		initContactModification(index);
 		fillContactForm(contact, MODIFICATION);
 		submitContactModification();
 		returnToHomePage();
-		rebuildCache();
+		manager.getModel()
+				.removeContact(index)
+				.addContact(
+						transformContactToVisibleOnContactsPage(contact,
+								oldContact, MODIFICATION));
+		// rebuildCache();
 	}
 
 	public void deleteContact(int index) {
@@ -68,7 +79,8 @@ public class ContactHelper extends WebDriverHelperBase {
 		initContactModification(index);
 		submitContactDeletion();
 		returnToHomePage();
-		rebuildCache();
+		manager.getModel().removeContact(index);
+		// rebuildCache();
 	}
 
 	public void addSomeContactToGroup(int contactIndex, int groupIndex,
@@ -109,13 +121,14 @@ public class ContactHelper extends WebDriverHelperBase {
 	}
 
 	private List<WebElement> getContactRows() {
-		List<WebElement> rows = getListWebElements(By.xpath("//tr[@name='entry']"));	
+		List<WebElement> rows = getListWebElements(By
+				.xpath("//tr[@name='entry']"));
 		return rows;
 	}
 
 	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
-		cachedContacts = null;
+		// cachedContacts = null;
 		return this;
 	}
 
@@ -169,12 +182,13 @@ public class ContactHelper extends WebDriverHelperBase {
 				selectByText(By.name("new_group"), contact.getGroup());
 			}
 
-		} else {
-			if (getListWebElements(By.name("new_group")).size() != 0) {
-				throw new Error(
-						"Group selector exists in contact modification form");
-			}
 		}
+		// else {
+		// if (getListWebElements(By.name("new_group")).size() != 0) {
+		// throw new Error(
+		// "Group selector exists in contact modification form");
+		// }
+		// }
 		if (contact.getAddress2() != null) {
 			type(By.name("address2"), contact.getAddress2());
 		}
@@ -188,8 +202,8 @@ public class ContactHelper extends WebDriverHelperBase {
 			ContactData contact, ContactData oldContact, boolean formType) {
 		String lastname = contact.getLastname();
 		String firstname = contact.getFirstname();
-		String email1 = contact.getEmail1();
 		String email2 = contact.getEmail2();
+		String visibleEmail = contact.getEmail1();
 		int id;
 
 		if (formType == CREATION) {
@@ -200,11 +214,11 @@ public class ContactHelper extends WebDriverHelperBase {
 			if (firstname == null) {
 				firstname = "";
 			}
-			if ((email1 == null) || (email1.equals(""))) {
+			if ((visibleEmail == null) || (visibleEmail.equals(""))) {
 				if (email2 == null) {
 					email2 = "";
 				}
-				email1 = email2;
+				visibleEmail = email2;
 			}
 		} else {
 			id = oldContact.getId();
@@ -216,19 +230,20 @@ public class ContactHelper extends WebDriverHelperBase {
 				firstname = oldContact.getFirstname();
 			}
 
-			if (email1 == null) {
-				email1 = oldContact.getEmail1();
-			}
+			if (visibleEmail == null) {
+				visibleEmail = oldContact.getEmail1();
+			} 
 
-			if (email1.equals("")) {
+			if (visibleEmail.equals("")) {
 				if (email2 == null) {
 					email2 = oldContact.getEmail2();
 				}
-				email1 = email2;
+				visibleEmail = email2;
 			}
+
 		}
 		return new ContactData().withId(id).withLastname(lastname)
-				.withFirstname(firstname).withEmail1(email1);
+				.withFirstname(firstname).withVisibleEmail(visibleEmail);
 	}
 
 	public ContactHelper returnToHomePage() {
@@ -238,14 +253,14 @@ public class ContactHelper extends WebDriverHelperBase {
 
 	public ContactHelper submitContactDeletion() {
 		click(By.xpath("(//input[@name='update'])[2]"));
-		cachedContacts = null;
+		// cachedContacts = null;
 		return this;
 
 	}
 
 	public ContactHelper submitContactModification() {
 		click(By.name("update"));
-		cachedContacts = null;
+		// cachedContacts = null;
 		return this;
 
 	}
@@ -283,7 +298,7 @@ public class ContactHelper extends WebDriverHelperBase {
 		manager.navigateTo().mainPage();
 		click(By.xpath("" + switchCombobox("groupListOnMainPage") + "["
 				+ (index + 1) + "]"));
-		cachedContacts = null;
+		// cachedContacts = null;
 		return this;
 	}
 
@@ -295,7 +310,7 @@ public class ContactHelper extends WebDriverHelperBase {
 	private ContactHelper openContactListOfGroup(String name) {
 		if (!alreadyOpenContactListOfGroup(name)) {
 			selectByText(By.name("group"), name);
-			cachedContacts = null;
+			// cachedContacts = null;
 		}
 		return this;
 	}
@@ -308,7 +323,7 @@ public class ContactHelper extends WebDriverHelperBase {
 
 	public ContactHelper submitContactRemovalFromGroup() {
 		click(By.name("remove"));
-		cachedContacts = null;
+		// cachedContacts = null;
 		return this;
 
 	}

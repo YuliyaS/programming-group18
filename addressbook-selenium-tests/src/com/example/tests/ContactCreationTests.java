@@ -30,21 +30,21 @@ public class ContactCreationTests extends TestBase {
 			throws Exception {
 
 		// save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper()
-				.getAllContacts();
+		SortedListOf<ContactData> oldList = app.getModel().getContacts();
 
 		// actions
 		app.getContactHelper().createContact(contact);
 
 		// save new state
-		SortedListOf<ContactData> newList = app.getContactHelper()
-				.getAllContacts();
+		SortedListOf<ContactData> newList = app.getModel().getContacts();
 		ContactData newContact = app.getContactHelper()
 				.transformContactToVisibleOnContactsPage(contact, contact,
 						CREATION);
 
 		// compare states
 		assertThat(newList, equalTo(oldList.withAdded(newContact)));
+		assertThat(app.getModel().getContacts(), equalTo(app
+				.getHibernateHelper().listContacts()));
 
 	}
 

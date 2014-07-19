@@ -29,8 +29,7 @@ public class GroupCreationTests extends TestBase {
 			throws Exception {
 
 		// save old state
-		SortedListOf<GroupData> oldList = app
-				.getModel().getGroups();
+		SortedListOf<GroupData> oldList = app.getModel().getGroups();
 
 		// actions
 		app.getGroupHelper().createGroup(group);
@@ -38,11 +37,12 @@ public class GroupCreationTests extends TestBase {
 		// save new state
 		SortedListOf<GroupData> newList = app.getModel().getGroups();
 		GroupData newGroup = app.getGroupHelper()
-			.transformGroupToVisibleOnGroupsPage(group, group, CREATION);
+				.transformGroupToVisibleOnGroupsPage(group, group, CREATION);
 
 		// compare states
 		assertThat(newList, equalTo(oldList.withAdded(newGroup)));
-		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper().listGroups()));
+		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper()
+				.listGroups()));
 
 	}
 

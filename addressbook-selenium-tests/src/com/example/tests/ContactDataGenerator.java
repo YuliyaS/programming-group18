@@ -56,13 +56,13 @@ public class ContactDataGenerator extends RandomDataGenerator {
 		FileWriter writer = new FileWriter(file);
 		for (ContactData contact : contacts) {
 			writer.write(contact.getFirstname() + "," + contact.getLastname()
-					+ "," + contact.getAddress1() + "," + contact.getHomePhone1()
-					+ "," + contact.getMobilePhone() + ","
-					+ contact.getWorkPhone() + "," + contact.getEmail1() + ","
-					+ contact.getEmail2() + "," + contact.getAddress2() + ","
-					+ contact.getHomePhone2() + "," + contact.getBday() + ","
-					+ contact.getBmonth() + "," + contact.getByear() + ","
-					+ contact.getGroup() + ",!" + "\n");
+					+ "," + contact.getAddress1() + ","
+					+ contact.getHomePhone1() + "," + contact.getMobilePhone()
+					+ "," + contact.getWorkPhone() + "," + contact.getEmail1()
+					+ "," + contact.getEmail2() + "," + contact.getAddress2()
+					+ "," + contact.getHomePhone2() + "," + contact.getBday()
+					+ "," + contact.getBmonth() + "," + contact.getByear()
+					+ "," + contact.getGroup() + ",!" + "\n");
 		}
 		writer.close();
 	}
@@ -80,20 +80,13 @@ public class ContactDataGenerator extends RandomDataGenerator {
 					part[i] = null;
 				}
 			}
-			ContactData contact = new ContactData()
-			        .withFirstname(part[0])
-					.withLastname(part[1])
-					.withAddress1(part[2])
-					.withHomePhone1(part[3])
-					.withMobilePhone(part[4])
-					.withWorkPhone(part[5])
-					.withEmail1(part[6])
-					.withEmail2(part[7])
-					.withAddress2(part[8])
-					.withHomePhone2(part[9])
-					.withBday(part[10])
-					.withBmonth(part[11])
-					.withByear(part[12])
+			ContactData contact = new ContactData().withFirstname(part[0])
+					.withLastname(part[1]).withAddress1(part[2])
+					.withHomePhone1(part[3]).withMobilePhone(part[4])
+					.withWorkPhone(part[5]).withEmail1(part[6])
+					.withEmail2(part[7]).withAddress2(part[8])
+					.withHomePhone2(part[9]).withBday(part[10])
+					.withBmonth(part[11]).withByear(part[12])
 					.withGroup(part[13]);
 			list.add(contact);
 			line = bufferedReader.readLine();
@@ -108,7 +101,8 @@ public class ContactDataGenerator extends RandomDataGenerator {
 		return (List<ContactData>) xstream.fromXML(file);
 	}
 
-	public static List<ContactData> generateRandomContacts(int amount) throws IOException {
+	public static List<ContactData> generateRandomContacts(int amount)
+			throws IOException {
 		List<ContactData> list = new ArrayList<ContactData>();
 		for (int i = 0; i < amount; i++) {
 			String DOB = RandomDOB();
@@ -123,8 +117,7 @@ public class ContactDataGenerator extends RandomDataGenerator {
 					.withEmail2(generateRandomString())
 					.withAddress2(generateRandomString())
 					.withHomePhone2(generateRandomString())
-					.withBday(randomBday(DOB))
-					.withBmonth(randomBmonth(DOB))
+					.withBday(randomBday(DOB)).withBmonth(randomBmonth(DOB))
 					.withByear(randomByear(DOB))
 					.withGroup(getRandomGroupName());
 			list.add(contact);

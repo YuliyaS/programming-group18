@@ -83,11 +83,11 @@ public class GroupDataGenerator extends RandomDataGenerator {
 	}
 
 	public static List<GroupData> loadGroupsFromXmlFile(File file) {
-	XStream xstream = new XStream();
-	xstream.alias("group", GroupData.class);
-	return (List<GroupData>) xstream.fromXML(file);
+		XStream xstream = new XStream();
+		xstream.alias("group", GroupData.class);
+		return (List<GroupData>) xstream.fromXML(file);
 	}
-	
+
 	public static List<GroupData> generateRandomGroups(int amount) {
 		List<GroupData> list = new ArrayList<GroupData>();
 		for (int i = 0; i < amount; i++) {

@@ -1,9 +1,7 @@
 package com.example.tests;
 
 import static com.example.fw.GroupHelper.MODIFICATION;
-
 import static org.junit.Assert.assertThat;
-
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.Test;
@@ -23,7 +21,7 @@ public class GroupModificationTests extends TestBase {
 		GroupData oldGroup = oldList.get(index);
 
 		// actions
-		app.getGroupHelper().modifyGroup(group, index);
+		app.getGroupHelper().modifyGroup(group, oldGroup, index);
 
 		// save new state
 		SortedListOf<GroupData> newList = app.getModel().getGroups();
@@ -33,6 +31,8 @@ public class GroupModificationTests extends TestBase {
 
 		// compare states
 		assertThat(newList, equalTo(oldList.without(index).withAdded(newGroup)));
+		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper()
+				.listGroups()));
 
 	}
 

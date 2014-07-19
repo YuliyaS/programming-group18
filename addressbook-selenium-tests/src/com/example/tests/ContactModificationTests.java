@@ -14,18 +14,15 @@ public class ContactModificationTests extends TestBase {
 	public void modifySomeContact(ContactData contact) throws Exception {
 
 		// save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper()
-				.getAllContacts();
+		SortedListOf<ContactData> oldList = app.getModel().getContacts();
 		int index = getRandomIndexOfList(oldList.size());
-		ContactData oldContact = app.getContactHelper()
-				.getContactDataOnEditingForm(index);
+		ContactData oldContact = app.getModel().getContact(index);
 
 		// actions
-		app.getContactHelper().modifyContact(index, contact);
+		app.getContactHelper().modifyContact(index, contact, oldContact);
 
 		// save new state
-		SortedListOf<ContactData> newList = app.getContactHelper()
-				.getAllContacts();
+		SortedListOf<ContactData> newList = app.getModel().getContacts();
 		ContactData newContact = app.getContactHelper()
 				.transformContactToVisibleOnContactsPage(contact, oldContact,
 						MODIFICATION);
@@ -33,5 +30,8 @@ public class ContactModificationTests extends TestBase {
 		// compare states
 		assertThat(newList, equalTo(oldList.without(index)
 				.withAdded(newContact)));
+		assertThat(app.getModel().getContacts(), equalTo(app
+				.getHibernateHelper().listContacts()));
+
 	}
 }

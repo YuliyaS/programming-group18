@@ -1,7 +1,6 @@
 package com.example.tests;
 
 import static org.junit.Assert.assertThat;
-
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.Test;
@@ -27,6 +26,8 @@ public class GroupRemovalTests extends TestBase {
 
 		// compare states
 		assertThat(newList, equalTo(oldList.without(index)));
+		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper()
+				.listGroups()));
 
 	}
 }

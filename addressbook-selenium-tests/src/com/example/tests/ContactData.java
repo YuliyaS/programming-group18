@@ -16,6 +16,7 @@ public class ContactData implements Comparable<ContactData> {
 	private String group;
 	private String address2;
 	private String homePhone2;
+	private String visibleEmail;
 
 	public ContactData() {
 
@@ -24,7 +25,7 @@ public class ContactData implements Comparable<ContactData> {
 	@Override
 	public String toString() {
 		return "ContactData [firstname=" + firstname + ", lastname=" + lastname
-				+ ", email1=" + email1 + "]";
+				+ ", visibleEmail=" + visibleEmail + "]";
 	}
 
 	@Override
@@ -55,12 +56,17 @@ public class ContactData implements Comparable<ContactData> {
 				return false;
 		} else if (!firstname.equals(other.firstname))
 			return false;
-		if (email1 == null) {
-			if (other.email1 != null)
+		if (other.visibleEmail == null) {
+			return true;
+		} else {
+			if (visibleEmail == null) {
+				if (other.visibleEmail != null)
+					return false;
+			} else if (!visibleEmail.equals(other.visibleEmail))
 				return false;
-		} else if (!email1.equals(other.email1))
-			return false;
-		return true;
+			return true;
+		}
+
 	}
 
 	@Override
@@ -130,6 +136,12 @@ public class ContactData implements Comparable<ContactData> {
 	public ContactData withEmail2(String email2) {
 		this.email2 = email2;
 		return this;
+	}
+
+	public ContactData withVisibleEmail(String visibleEmail) {
+		this.visibleEmail = visibleEmail;
+		return this;
+
 	}
 
 	public ContactData withAddress2(String address2) {
@@ -220,6 +232,74 @@ public class ContactData implements Comparable<ContactData> {
 
 	public String getHomePhone2() {
 		return homePhone2;
+	}
+
+	public String getVisibleEmail() {
+		return visibleEmail;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public void setHomePhone1(String homePhone1) {
+		this.homePhone1 = homePhone1;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
+	public void setBday(String bday) {
+		this.bday = bday;
+	}
+
+	public void setBmonth(String bmonth) {
+		this.bmonth = bmonth;
+	}
+
+	public void setByear(String byear) {
+		this.byear = byear;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public void setHomePhone2(String homePhone2) {
+		this.homePhone2 = homePhone2;
+	}
+
+	public void setVisibleEmail(String visibleEmail) {
+		this.visibleEmail = visibleEmail;
 	}
 
 }

@@ -16,8 +16,7 @@ public class MoveContactsBetweenGroups extends TestBase {
 	public void addContactToSomeGroup() {
 
 		// get test data
-		SortedListOf<ContactData> allContacts = app.getContactHelper()
-				.getAllContacts();
+		SortedListOf<ContactData> allContacts = app.getModel().getContacts();
 		SortedListOf<GroupData> groups = app.getModel().getGroups();
 		int contactIndex = getRandomIndexOfList(allContacts.size());
 		int groupIndex = getRandomIndexOfList(groups.size());

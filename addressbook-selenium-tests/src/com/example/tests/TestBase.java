@@ -38,14 +38,17 @@ public class TestBase {
 		return wrapGroupsForDataProvider(generateRandomGroups(5)).iterator();
 	}
 
-	public static Properties getProperties() throws IOException, FileNotFoundException {
-		String configFile = System.getProperty("configFile", "application.properties");
+	public static Properties getProperties() throws IOException,
+			FileNotFoundException {
+		String configFile = System.getProperty("configFile",
+				"application.properties");
 		Properties properties = new Properties();
 		properties.load(new FileReader(new File(configFile)));
 		return properties;
 	}
-	
-	public static List<Object[]> wrapGroupsForDataProvider(List<GroupData> groups) {
+
+	public static List<Object[]> wrapGroupsForDataProvider(
+			List<GroupData> groups) {
 		List<Object[]> list = new ArrayList<Object[]>();
 		for (GroupData group : groups) {
 			list.add(new Object[] { group });

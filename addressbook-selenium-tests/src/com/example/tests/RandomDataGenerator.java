@@ -10,7 +10,6 @@ import com.example.fw.ApplicationManager;
 
 public class RandomDataGenerator extends TestBase {
 
-	
 	public static int getRandomIndexOfList(int listsize) {
 		Random rnd = new Random();
 		int index;
