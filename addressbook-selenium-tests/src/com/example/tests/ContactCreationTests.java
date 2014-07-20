@@ -3,7 +3,6 @@ package com.example.tests;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Properties;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -45,6 +44,8 @@ public class ContactCreationTests extends TestBase {
 		assertThat(newList, equalTo(oldList.withAdded(newContact)));
 		assertThat(app.getModel().getContacts(), equalTo(app
 				.getHibernateHelper().listContacts()));
+		assertThat(app.getModel().getContacts(), equalTo(app.getContactHelper()
+				.getUiContacts()));
 
 	}
 

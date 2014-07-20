@@ -43,6 +43,8 @@ public class GroupCreationTests extends TestBase {
 		assertThat(newList, equalTo(oldList.withAdded(newGroup)));
 		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper()
 				.listGroups()));
+		assertThat(app.getModel().getGroups(), equalTo(app.getGroupHelper()
+				.getUiGroups()));
 
 	}
 

@@ -33,6 +33,8 @@ public class GroupModificationTests extends TestBase {
 		assertThat(newList, equalTo(oldList.without(index).withAdded(newGroup)));
 		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper()
 				.listGroups()));
+		assertThat(app.getModel().getGroups(), equalTo(app.getGroupHelper()
+				.getUiGroups()));
 
 	}
 

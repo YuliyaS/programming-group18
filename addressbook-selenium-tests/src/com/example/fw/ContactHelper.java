@@ -1,7 +1,5 @@
 package com.example.fw;
 
-import static com.example.fw.ContactHelper.CREATION;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,21 +19,12 @@ public class ContactHelper extends WebDriverHelperBase {
 		super(manager);
 	}
 
-	// private SortedListOf<ContactData> cachedContacts;
-
-	// public SortedListOf<ContactData> getAllContacts() {
-	// if (cachedContacts == null) {
-	// rebuildCache();
-	// }
-	// return cachedContacts;
-	//
-	// }
-	//
-	// private ContactHelper rebuildCache() {
-	// manager.navigateTo().mainPage();
-	// cachedContacts = getContactsFromContactTable();
-	// return this;
-	// }
+	public SortedListOf<ContactData> getUiContacts() {
+		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
+		manager.navigateTo().mainPage();
+		contacts = getContactsFromContactTable();
+		return contacts;
+	}
 
 	public SortedListOf<ContactData> getContactsInGroup(int groupIndex) {
 		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
@@ -56,7 +45,6 @@ public class ContactHelper extends WebDriverHelperBase {
 		manager.getModel().addContact(
 				transformContactToVisibleOnContactsPage(contact, contact,
 						CREATION));
-		// rebuildCache();
 	}
 
 	public void modifyContact(int index, ContactData contact,
@@ -71,7 +59,6 @@ public class ContactHelper extends WebDriverHelperBase {
 				.addContact(
 						transformContactToVisibleOnContactsPage(contact,
 								oldContact, MODIFICATION));
-		// rebuildCache();
 	}
 
 	public void deleteContact(int index) {
@@ -80,7 +67,6 @@ public class ContactHelper extends WebDriverHelperBase {
 		submitContactDeletion();
 		returnToHomePage();
 		manager.getModel().removeContact(index);
-		// rebuildCache();
 	}
 
 	public void addSomeContactToGroup(int contactIndex, int groupIndex,
@@ -128,7 +114,6 @@ public class ContactHelper extends WebDriverHelperBase {
 
 	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
-		// cachedContacts = null;
 		return this;
 	}
 
@@ -232,7 +217,7 @@ public class ContactHelper extends WebDriverHelperBase {
 
 			if (visibleEmail == null) {
 				visibleEmail = oldContact.getEmail1();
-			} 
+			}
 
 			if (visibleEmail.equals("")) {
 				if (email2 == null) {
@@ -253,14 +238,12 @@ public class ContactHelper extends WebDriverHelperBase {
 
 	public ContactHelper submitContactDeletion() {
 		click(By.xpath("(//input[@name='update'])[2]"));
-		// cachedContacts = null;
 		return this;
 
 	}
 
 	public ContactHelper submitContactModification() {
 		click(By.name("update"));
-		// cachedContacts = null;
 		return this;
 
 	}
@@ -298,7 +281,6 @@ public class ContactHelper extends WebDriverHelperBase {
 		manager.navigateTo().mainPage();
 		click(By.xpath("" + switchCombobox("groupListOnMainPage") + "["
 				+ (index + 1) + "]"));
-		// cachedContacts = null;
 		return this;
 	}
 
@@ -310,7 +292,6 @@ public class ContactHelper extends WebDriverHelperBase {
 	private ContactHelper openContactListOfGroup(String name) {
 		if (!alreadyOpenContactListOfGroup(name)) {
 			selectByText(By.name("group"), name);
-			// cachedContacts = null;
 		}
 		return this;
 	}
@@ -323,7 +304,6 @@ public class ContactHelper extends WebDriverHelperBase {
 
 	public ContactHelper submitContactRemovalFromGroup() {
 		click(By.name("remove"));
-		// cachedContacts = null;
 		return this;
 
 	}

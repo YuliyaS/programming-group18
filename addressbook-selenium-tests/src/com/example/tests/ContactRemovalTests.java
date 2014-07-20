@@ -28,6 +28,8 @@ public class ContactRemovalTests extends TestBase {
 		assertThat(newList, equalTo(oldList.without(index)));
 		assertThat(app.getModel().getContacts(), equalTo(app
 				.getHibernateHelper().listContacts()));
+		assertThat(app.getModel().getContacts(), equalTo(app.getContactHelper()
+				.getUiContacts()));
 
 	}
 

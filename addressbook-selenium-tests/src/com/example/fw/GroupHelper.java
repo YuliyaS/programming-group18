@@ -1,7 +1,5 @@
 package com.example.fw;
 
-import static com.example.fw.GroupHelper.CREATION;
-
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -19,31 +17,6 @@ public class GroupHelper extends WebDriverHelperBase {
 		super(manager);
 	}
 
-	// private SortedListOf<GroupData> cachedGroups;
-
-	// public SortedListOf<GroupData> getGroups() {
-	// if (cachedGroups == null) {
-	// rebuildCache();
-	// }
-	// return cachedGroups;
-	//
-	// }
-	//
-	// private GroupHelper rebuildCache() {
-	// cachedGroups = new SortedListOf<GroupData>();
-	// manager.navigateTo().groupsPage();
-	// List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
-	// for (WebElement checkbox : checkboxes) {
-	// String title = checkbox.getAttribute("title");
-	// String name = title.substring("Select (".length(), title.length()
-	// - ")".length());
-	// cachedGroups.add(new GroupData().withName(name));
-	//
-	// }
-	// return this;
-	//
-	// }
-
 	public GroupHelper createGroup(GroupData group) {
 		manager.navigateTo().groupsPage();
 		initGroupCreation();
@@ -52,7 +25,6 @@ public class GroupHelper extends WebDriverHelperBase {
 		returnToGroupsPage();
 		manager.getModel().addGroup(
 				transformGroupToVisibleOnGroupsPage(group, group, CREATION));
-		// rebuildCache();
 		return this;
 	}
 
@@ -68,7 +40,6 @@ public class GroupHelper extends WebDriverHelperBase {
 				.addGroup(
 						transformGroupToVisibleOnGroupsPage(group, oldGroup,
 								MODIFICATION));
-		// rebuildCache();
 		return this;
 	}
 
@@ -78,11 +49,23 @@ public class GroupHelper extends WebDriverHelperBase {
 		submitGroupDeletion();
 		returnToGroupsPage();
 		manager.getModel().removeGroup(index);
-		// rebuildCache();
 		return this;
 	}
 
 	// -----------------------------------------------------------------------------------
+
+	public SortedListOf<GroupData> getUiGroups() {
+		SortedListOf<GroupData> groups = new SortedListOf<GroupData>();
+		manager.navigateTo().groupsPage();
+		List<WebElement> checkboxes = getListWebElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			String title = checkbox.getAttribute("title");
+			String name = title.substring("Select (".length(), title.length()
+					- ")".length());
+			groups.add(new GroupData().withName(name));
+		}
+		return groups;
+	}
 
 	public GroupHelper initGroupCreation() {
 		click(By.name("new"));
@@ -104,7 +87,6 @@ public class GroupHelper extends WebDriverHelperBase {
 
 	public GroupHelper submitGroupCreation() {
 		click(By.name("submit"));
-		// cachedGroups = null;
 		return this;
 	}
 
@@ -126,7 +108,6 @@ public class GroupHelper extends WebDriverHelperBase {
 
 	public GroupHelper submitGroupModification() {
 		click(By.name("update"));
-		// cachedGroups = null;
 		return this;
 	}
 
@@ -154,7 +135,6 @@ public class GroupHelper extends WebDriverHelperBase {
 
 	private GroupHelper submitGroupDeletion() {
 		click(By.name("delete"));
-		// cachedGroups = null;
 		return this;
 	}
 

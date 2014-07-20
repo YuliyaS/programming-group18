@@ -28,6 +28,8 @@ public class GroupRemovalTests extends TestBase {
 		assertThat(newList, equalTo(oldList.without(index)));
 		assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper()
 				.listGroups()));
+		assertThat(app.getModel().getGroups(), equalTo(app.getGroupHelper()
+				.getUiGroups()));
 
 	}
 }
