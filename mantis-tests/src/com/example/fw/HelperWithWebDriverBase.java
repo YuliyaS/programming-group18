@@ -67,7 +67,7 @@ protected List<WebElement> findElements(By locator) {
 //}
 
 protected void openUrl(String string) {
-	driver.get(manager.getProperty("baseURL") + string);
+	driver.get(manager.getProperty("baseUrl") + string);
 }
 
 

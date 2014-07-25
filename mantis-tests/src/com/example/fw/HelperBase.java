@@ -8,5 +8,12 @@ public class HelperBase {
 		this.manager = manager;
 
 	}
-
+	protected void pause(int pause) {
+		try {
+			Thread.sleep(pause);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

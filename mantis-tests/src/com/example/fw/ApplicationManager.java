@@ -16,6 +16,8 @@ public class ApplicationManager {
 
 	private MailHelper mailHelper;
 
+	private JamesHelper jamesHelper;
+
 	public static ApplicationManager getInstance() {
 		if (singleton == null) {
 			singleton = new ApplicationManager();
@@ -64,6 +66,13 @@ public class ApplicationManager {
 			mailHelper = new MailHelper(this);
 		}
 		return mailHelper;
+	}
+
+	public JamesHelper getJamesHelper() {
+		if (jamesHelper == null) {
+			jamesHelper = new JamesHelper(this);
+		}
+		return jamesHelper;
 	}
 
 }

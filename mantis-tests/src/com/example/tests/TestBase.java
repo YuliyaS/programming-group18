@@ -19,6 +19,7 @@ public class TestBase {
 	protected ApplicationManager app;
 
 	@BeforeClass
+	
 	@Parameters({ "configFile" })
 	public void setUp(@Optional String configFile) throws Exception {
 		if (configFile == null) {

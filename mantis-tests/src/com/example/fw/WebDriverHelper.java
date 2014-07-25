@@ -93,7 +93,7 @@ public class WebDriverHelper {
 	
 
 	public WebDriver getDriver() {
-		String browser = properties.getProperty("browser");
+		String browser = manager.getProperty("browser");
 		if (driver == null) {
 			if ("firefox".equals(browser)) {
 				driver = new FirefoxDriver();
@@ -102,8 +102,8 @@ public class WebDriverHelper {
 			} else {
 				throw new Error("Unsupported browser: " + browser);
 			}
-			baseUrl = properties.getProperty("baseUrl");
-			implicitlyWait = properties.getProperty("implicitlyWait");
+			baseUrl = manager.getProperty("baseUrl");
+			implicitlyWait = manager.getProperty("implicitlyWait");
 			driver.manage().timeouts().implicitlyWait(Integer.parseInt(implicitlyWait), TimeUnit.SECONDS);
 			driver.get(baseUrl);
 		}
